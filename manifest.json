@@ -1,0 +1,15 @@
+{
+    "name":"WbTV",
+    "short_name":"WebTV",
+    "start_url":".",
+    "theme_color": "#FFFFFF",
+    "display":"standalone",
+    "description":"A Web-based TV",
+    "icons":[
+    {
+    "src":"webtvlogo.svg",
+    "sizes":"512x512",
+    "type":"image/png"
+    }
+  ]
+}

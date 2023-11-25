@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebTV</title>
+    <link rel="icon" type="image/x-icon" href="webtvlogo.svg">
+    <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+    <link rel="manifest" href="manifest.json" />
+    <style>
+        html{
+            scroll-behavior: smooth;
+        }
+        *::-webkit-scrollbar {
+            display: none;
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        body {
+            /* background: linear-gradient(180deg, rgba(0, 0, 0, 0.00) 0%, #000 100%), url('trijya.jpg'), lightgray 50% / cover no-repeat;
+            background-position: center; */
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-attachment: fixed;
+            height: 100vh;
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+            margin: 0;
+        }
+        @font-face {
+            font-family: Trajan;
+            src: url('TrajanRegular.ttf');
+        }
+        .featured {
+            margin: 36px 24px;
+            display: flex;
+            flex-direction: column;
+            justify-content: left;
+            align-items: left;
+            gap: 24px;
+        }
+        .featured img{
+            height: 28px;
+            width: fit-content; 
+            text-align: left;
+        }
+        .trijya {
+            font-family: Trajan;
+            font-size: 64px;
+            letter-spacing: 9.6px;
+            color: white;
+        }
+        .watch {
+            font-family:Arial, Helvetica, sans-serif;
+            font-weight: 600;
+            font-size: 18px;
+            padding: 8px 16px;
+            border-radius: 50px;
+            background-color: white;
+            width: fit-content;
+        }
+        .websites {
+            margin-left: 24px;
+            font-family:Arial, Helvetica, sans-serif;
+            font-weight: 600;
+            font-size: 36px;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+            padding-bottom: 24px;
+        }
+        .livetv, .OTT, .Custom, .Music{
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+        .card {
+            width: 250px;
+            height: 150px;
+            min-width: 250px;
+            background-color: white;
+            border-radius: 25px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .card img{
+            width: 150px;
+            height: fit-content;
+        }
+        .cards {
+            display: flex;
+            gap: 16px;
+            overflow-y: auto;
+            overflow: visible;
+        }
+        .yupptv {
+            width: 250px;
+            height: 150px;
+            background-color: black;
+            border-radius: 25px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        a :hover{
+            outline: 2px solid white;
+            outline-offset: 4px;
+        }
+        input {
+            padding: 8px 16px;
+            border-radius: 50px;
+        }
+        input::placeholder {
+            font-family:Arial, Helvetica, sans-serif;
+            font-weight: 600;
+            border: 0;
+            outline: 0;
+        }
+        .addcard {
+            width: 250px;
+            height: 150px;
+            min-width: 250px;
+            background-color: rgba(37, 37, 37, 0.5);
+            backdrop-filter: blur(10px);
+            border-radius: 25px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        button {
+            padding: 16px 24px;
+            background-color: black;
+            border-radius: 50px;
+            scale: .6;
+            cursor: pointer;
+            border: 0;
+        }
+        button img{
+            width: 18px !important;
+            height: 18px;
+        }
+        #linkList {
+            cursor: pointer;
+        }
+        .nav {
+            display: flex;
+            gap: 24px;
+            justify-content: center;
+            padding: 24px 0px;
+            font-family:Arial, Helvetica, sans-serif;
+            font-weight: 600;
+            color: white;
+        }
+        .featured a {
+            text-decoration: none;
+            color: black;
+        }
+        .nav a {
+            text-decoration: none;
+            color: white;
+        }
+        .btn {
+            padding: 8px 16px;
+            border-radius: 50px;
+            text-decoration: none;
+        }
+        #myVideo {
+            position: fixed;
+            right: 0;
+            bottom: 0;
+            height: 100vh;
+            min-width: 100vw;
+            min-height: 100vh;
+            z-index: -50;
+            object-fit: cover;
+
+        }
+        .filter {
+            height: 100vh;
+            width: 100vw;
+            mix-blend-mode: multiply;
+            background: linear-gradient(180deg, rgba(0, 0, 0, 0.00) 0%, #000 100%), lightgray 50% / cover no-repeat;
+            z-index: -40;
+            position: fixed;
+        }
+        .watch img{
+            height: 12px;
+            margin-left: 10px;
+        }
+        a .watch:target{
+            border: solid 2px white;
+            outline-offset: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="filter"></div>
+    <video autoplay muted loop id="myVideo">
+        <source src="trijya.mp4" type="video/mp4">
+    </video>
+    <div class="nav">
+        <a href="#livetv"><div          class="btn">Live TV</div></a>
+        <a href="#ott"><div class="btn">OTT</div></a>
+        <a href="#custom"><div class="btn">Your Content</div></a>
+        <a href="#music"><div class="btn">Music</div></a>
+    </div>
+    <div class="featured">
+        <img src="mubi.svg">
+        <div class="trijya">TRIJYA</div>
+        <a href="https://mubi.com/en/in/films/radius-2019"><div class="watch">Watch Now<img src="play.svg"></div></a>
+    </div>
+    <div class="websites">
+        <div class="livetv" id="livetv">
+            <div>Live TV</div>
+            <div class="cards">
+                <a href="https://www.watcho.com/live-tv"><div class="card" class="watcho"><img src="watcho.png" alt=""></div></a>
+                <a href="https://www.yupptv.com/"><div class="yupptv"><img src="yupptv.svg" alt=""></div></a>
+                <!-- <div class="addcard">
+                    <input type="text" id="liveTVInput" placeholder="Enter Live TV URL">
+                    <button onclick="addLink('liveTV')"><img src="add.svg"></button>
+                </div> -->
+            </div>
+        </div>
+        <div class="OTT" id="ott">
+            <div>OTT</div>
+            <div class="cards">
+                <a href="https://www.youtube.com/"><div class="card" class="watcho"><img src="youtube.svg" alt=""></div></a>
+                <a href="https://www.mxplayer.in/"><div class="card"><img src="mxplayer.png" alt=""></div></a>
+                <a href="https://www.jiocinema.com/"><div class="card"><img src="jiocinema.png" alt=""></div></a>
+                <!-- <div class="addcard">
+                    <input type="text" id="ottInput" placeholder="Enter OTT Platform URL">
+                    <button onclick="addLink('ott')"><img src="add.svg"></button>
+                </div> -->
+            </div>
+        </div>
+        <div class="Custom" id="custom">
+            <div>Your Content</div>
+            <div class="cards">
+                <a href="https://drive.google.com/drive/my-drive"><div class="card" class="watcho"><img src="gdrive.svg" alt=""></div></a>
+                <a href="https://web.whatsapp.com/"><div class="card"><img src="whatsapp.png" alt=""></div></a>
+                <a href="https://web.telegram.org/a/"><div class="card"><img src="telegram.png" alt=""></div></a>
+                <!-- <div class="addcard">
+                    <input type="text" id="yourContentInput" placeholder="Enter Your Content URL">
+                    <button onclick="addLink('yourContent')"><img src="add.svg"></button>
+                </div> -->
+            </div>
+        </div>
+        <div class="Music" id="music">
+            <div>Music</div>
+            <div class="cards">
+                <a href="https://open.spotify.com/"><div class="card" class="watcho"><img src="spotify.svg" alt=""></div></a>
+                <!-- <div class="addcard">
+                    <input type="text" id="musicInput" placeholder="Enter Music Platform URL">
+                    <button onclick="addLink('music')"><img src="add.svg"></button>
+                </div> -->
+            </div>
+        </div>
+    </div>
+    <script>
+    var capture = $("body")
+    .attr("tabindex","-1")
+    .focus()
+    .keydown(
+        function handleKeyboard(event){
+            if(event.key.toLowerCase !== "tab"){
+                return;
+            }
+        }
+    )
+    var tabbable =$()
+    .add(capture.find("button","input","select","textarea"))
+    .add(capture.find("[href]"))
+    .add(capture.find("[tabindex]:not([tabindex='-1'])"))
+    
+    </script>
+</body>
+</html>
