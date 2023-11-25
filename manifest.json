@@ -2,7 +2,7 @@
     "name":"WbTV",
     "short_name":"WebTV",
     "start_url":"https://prathampatankar.github.io/WebTV/",
-    "theme_color": "#FFFFFF",
+    "theme_color": "#00000",
     "display":"standalone",
     "description":"A Web-based TV",
     "icons":[
