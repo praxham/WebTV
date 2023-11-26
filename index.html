@@ -89,6 +89,7 @@
         .card img{
             width: 150px;
             height: fit-content;
+            mix-blend-mode: multiply;
         }
         .cards {
             display: flex;
@@ -196,9 +197,17 @@
             border: solid 2px white;
             outline-offset: 4px;
         }
+        .card {
+            color: black;
+        }
+        .newcard img{
+            padding-top: 16px;
+            width: 16px;
+        }
     </style>
 </head>
 <body>
+    <!-- <a href="webrun:C:\123movies.lnk">123movies</a> -->
     <div class="filter"></div>
     <video autoplay muted loop id="myVideo">
         <source src="trijya.mp4" type="video/mp4">
@@ -217,66 +226,134 @@
     <div class="websites">
         <div class="livetv" id="livetv">
             <div>Live TV</div>
-            <div class="cards">
+            <div class="cards" id="outputDiv1" class="outputDiv">
                 <a href="https://www.watcho.com/live-tv"><div class="card" class="watcho"><img src="watcho.png" alt=""></div></a>
                 <a href="https://www.yupptv.com/"><div class="yupptv"><img src="yupptv.svg" alt=""></div></a>
-                <!-- <div class="addcard">
-                    <input type="text" id="liveTVInput" placeholder="Enter Live TV URL">
-                    <button onclick="addLink('liveTV')"><img src="add.svg"></button>
-                </div> -->
+                <div class="addcard">
+                    <input type="text" id="inputField1" placeholder="Enter Live TV URL">
+                    <button onclick="storeAndDisplay(1)"><img src="add.svg"></button>
+                </div>
             </div>
         </div>
         <div class="OTT" id="ott">
             <div>OTT</div>
-            <div class="cards">
+            <div class="cards" id="outputDiv2" class="outputDiv">
                 <a href="https://www.youtube.com/"><div class="card" class="watcho"><img src="youtube.svg" alt=""></div></a>
                 <a href="https://www.mxplayer.in/"><div class="card"><img src="mxplayer.png" alt=""></div></a>
                 <a href="https://www.jiocinema.com/"><div class="card"><img src="jiocinema.png" alt=""></div></a>
-                <!-- <div class="addcard">
-                    <input type="text" id="ottInput" placeholder="Enter OTT Platform URL">
-                    <button onclick="addLink('ott')"><img src="add.svg"></button>
-                </div> -->
+                <div class="addcard">
+                    <input type="text" id="inputField2" placeholder="Enter OTT Platform URL">
+                    <button onclick="storeAndDisplay(2)"><img src="add.svg"></button>
+                </div>
             </div>
         </div>
         <div class="Custom" id="custom">
             <div>Your Content</div>
-            <div class="cards">
+            <div class="cards" id="outputDiv3" class="outputDiv">
                 <a href="https://drive.google.com/drive/my-drive"><div class="card" class="watcho"><img src="gdrive.svg" alt=""></div></a>
                 <a href="https://web.whatsapp.com/"><div class="card"><img src="whatsapp.png" alt=""></div></a>
                 <a href="https://web.telegram.org/a/"><div class="card"><img src="telegram.png" alt=""></div></a>
-                <!-- <div class="addcard">
-                    <input type="text" id="yourContentInput" placeholder="Enter Your Content URL">
-                    <button onclick="addLink('yourContent')"><img src="add.svg"></button>
-                </div> -->
+                <div class="addcard">
+                    <input type="text" id="inputField3" placeholder="Enter Your Content URL">
+                    <button onclick="storeAndDisplay(3)"><img src="add.svg"></button>
+                </div>
             </div>
         </div>
         <div class="Music" id="music">
             <div>Music</div>
-            <div class="cards">
+            <div class="cards" id="outputDiv4" class="outputDiv">
                 <a href="https://open.spotify.com/"><div class="card" class="watcho"><img src="spotify.svg" alt=""></div></a>
-                <!-- <div class="addcard">
-                    <input type="text" id="musicInput" placeholder="Enter Music Platform URL">
-                    <button onclick="addLink('music')"><img src="add.svg"></button>
-                </div> -->
+                <div class="addcard">
+                    <input type="text" id="inputField4" placeholder="Enter Music Platform URL">
+                    <button onclick="storeAndDisplay(4)"><img src="add.svg"></button>
+                </div>
             </div>
         </div>
     </div>
     <script>
-    var capture = $("body")
-    .attr("tabindex","-1")
-    .focus()
-    .keydown(
-        function handleKeyboard(event){
-            if(event.key.toLowerCase !== "tab"){
-                return;
-            }
+        // Function to store input values in local storage and display them
+        function storeAndDisplay(index) {
+            var storedValues = [];
+
+            // Get the input field and value for the specific set
+            var inputField = document.getElementById('inputField' + index);
+            var inputValue = inputField.value;
+
+            // Store the input value in local storage
+            localStorage.setItem('userInput' + index, inputValue);
+
+            // Add the input value to the array for display
+            storedValues.push(inputValue);
+
+            // Display the stored value in the output div
+            displayStoredValue(inputValue, index);
+
+            // Display the stored value in the output divs without clearing
+            appendStoredValues(storedValues, index);
         }
-    )
-    var tabbable =$()
-    .add(capture.find("button","input","select","textarea"))
-    .add(capture.find("[href]"))
-    .add(capture.find("[tabindex]:not([tabindex='-1'])"))
-    
+
+        // Function to display a single stored value in a div
+        function displayStoredValue(value, index) {
+            var outputDiv = document.getElementById('outputDiv' + index);
+
+            // Display the stored value in a new div
+            var divElement = document.createElement('div');
+            divElement.textContent = 'User Input ' + index + ': ' + value;
+
+            // Add an SVG icon for deletion
+            var svgDeleteIcon = createDeleteIcon(index);
+            divElement.appendChild(svgDeleteIcon);
+
+            // Append the new div to the output div without clearing
+            outputDiv.appendChild(divElement);
+        }
+
+        // Function to create an SVG delete icon
+        function createDeleteIcon(index) {
+            var svgNS = 'http://www.w3.org/2000/svg';
+            var svgDeleteIcon = document.createElementNS(svgNS, 'svg');
+            svgDeleteIcon.setAttribute('class', 'deleteIcon');
+            svgDeleteIcon.setAttribute('width', '24');
+            svgDeleteIcon.setAttribute('height', '24');
+            svgDeleteIcon.setAttribute('viewBox', '0 0 24 24');
+            svgDeleteIcon.innerHTML = '<path fill="#000000" d="M19 6h-4V2H9v4H5v2h14V6zM6 21h12c1.1 0 2-.9 2-2V7h-2v12c0 .6-.4 1-1 1H9c-.6 0-1-.4-1-1V7H6v12c0 1.1.9 2 2 2z"/>';
+
+            // Add a click event listener to the delete icon
+            svgDeleteIcon.addEventListener('click', function () {
+                deleteStoredValue(index);
+            });
+
+            return svgDeleteIcon;
+        }
+
+        // Function to delete a stored value and its associated div
+        function deleteStoredValue(index) {
+            localStorage.removeItem('userInput' + index);
+            var outputDiv = document.getElementById('outputDiv' + index);
+
+            // Remove the last child (latest div) from the output div
+            outputDiv.removeChild(outputDiv.lastChild);
+        }
+
+        // Function to append stored values in the output div without clearing
+        function appendStoredValues(values, index) {
+            var outputDiv = document.getElementById('outputDiv' + index);
+
+            // Display the stored value in a new div without clearing
+            var divElement = document.createElement('div');
+            divElement.textContent = 'User Input ' + index + ': ' + values[0];
+
+            // Add an SVG icon for deletion
+            var svgDeleteIcon = createDeleteIcon(index);
+            divElement.appendChild(svgDeleteIcon);
+
+            // Append the new div to the output div without clearing
+            outputDiv.appendChild(divElement);
+        }
+        // $( document ).ready(function() {
+        //     displayStoredValues(value, index);
+        // });
+        
     </script>
 </body>
 </html>
