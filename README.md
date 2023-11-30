@@ -7,6 +7,6 @@ You can get google tv like experience in browser, add your favourite websites or
 
 Links Support: Desktop Apps can be linked and opened through this website too, just use https://www.webrunapps.com/webrun.html, All other web URL are supported
 
-Remote: Use phone as a remote with the help of https://www.monect.com/ (here's the remote layout file:
+Remote: Use phone as a remote with the help of https://www.monect.com/ (here's the remote layout file:https://github.com/prathampatankar/WebTV/releases/download/file/WebTV.Remote.mlo)
 
 Website Title Extraction will work only on website which begin with www. and end with .com, .in, .org, .net  
