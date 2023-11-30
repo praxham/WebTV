@@ -427,6 +427,7 @@
       loadCustom();
       loadMusic();
     });
+    
     setTimeout(function(){$('.splash').hide()}, 3800);
     $(document).ready(function(){
       
@@ -492,11 +493,9 @@
         };
       tvs.forEach(function(tvText, index) {
         tvElement = document.createElement('div');
-        tvText2 = tvText.replace('.com','');
-        tvText2 = tvText2.replace('https://','');
-        tvText2 = tvText2.replace('www.','');
-        tvText2 = tvText2.replace('.','');
-        tvText2 = tvText2.replace('/','');
+        tvText2 = extractWebsiteName(tvText);
+        tvText2 = tvText2.replace('//','')
+        tvText2 = tvText2.replace('www','')
         tvElement.textContent = tvText2;
         tvElement.className = 'card';
         
@@ -578,8 +577,9 @@
         };
       otts.forEach(function(ottText, index2) {
         ottElement = document.createElement('div');
-        ottText2 = ottText.slice(ottText.indexOf('.'),ottText.indexOf('.c') || ottText.indexOf('.o') || ottText.indexOf('.i') || ottText.indexOf('.n'));
-        ottText2 = ottText2.slice(1, )
+        ottText2 = extractWebsiteName(ottText);
+        ottText2 = ottText2.replace('//','')
+        ottText2 = ottText2.replace('www.','')
         ottElement.textContent = ottText2;
         ottElement.className = 'card';
         
@@ -660,8 +660,9 @@
         };
       customs.forEach(function(customText, index3) {
         customElement = document.createElement('div');
-        customText2 = customText.slice(customText.indexOf('.'),customText.indexOf('.c') || customText.indexOf('.o') || customText.indexOf('.i') || customText.indexOf('.n'));
-        customText2 = customText2.slice(1, )
+        customText2 = extractWebsiteName(customText);
+        customText2 = customText2.replace('//','')
+        customText2 = customText2.replace('www','')
         customElement.textContent = customText2;
         customElement.className = 'card';
         
@@ -742,8 +743,9 @@
         };
       musics.forEach(function(musicText, index4) {
         musicElement = document.createElement('div');
-        musicText2 = musicText.slice(musicText.indexOf('.'),musicText.indexOf('.c') || musicText.indexOf('.o') || musicText.indexOf('.i') || musicText.indexOf('.n'));
-        musicText2 = musicText2.slice(1, )
+        musicText2 = extractWebsiteName(musicText);
+        musicText2 = musicText2.replace('//','')
+        musicText2 = musicText2.replace('www','')
         musicElement.textContent = musicText2;
         musicElement.className = 'card';
         
@@ -777,6 +779,15 @@
       // Reload the tasks
       loadMusic();
     }
+
+    function extractWebsiteName(url) {
+      // Use a regular expression to match the text between "www." and the next dot
+      const match = url.match(/\:(.*)\./);
+
+      // Check if there is a match and return the extracted name, or return null
+      return match ? match[1] : null;
+    }
+    
     </script>
 </body>
 </html>
