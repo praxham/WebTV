@@ -15,6 +15,7 @@
             display: none;
             -ms-overflow-style: none;
             scrollbar-width: none;
+            text-overflow: hidden;
         }
         body {
             /* background: linear-gradient(180deg, rgba(0, 0, 0, 0.00) 0%, #000 100%), url('trijya.jpg'), lightgray 50% / cover no-repeat;
@@ -80,7 +81,7 @@
             height: 150px;
             min-width: 250px;
             background-color: white;
-            border-radius: 25px;
+            border-radius: 50px;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -91,7 +92,7 @@
             height: fit-content;
             mix-blend-mode: multiply;
         }
-        .cards {
+        .cards ,#tvcards{
             display: flex;
             gap: 16px;
             overflow-y: auto;
@@ -100,23 +101,31 @@
         .yupptv {
             width: 250px;
             height: 150px;
+            min-width: 250px;
             background-color: black;
-            border-radius: 25px;
+            border-radius: 50px;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
         }
-        a :hover{
+        a :hover,:focus{
             outline: 2px solid white;
+            border-radius: 50px;
             outline-offset: 4px;
+            width: fit-content;
         }
         input {
+            width: 125px;
             padding: 8px 16px;
             border-radius: 50px;
+            text-align: center;
         }
         input::placeholder {
             font-family:Arial, Helvetica, sans-serif;
+            width:min-content;
+            text-align: center;
+            font-size: 16px;
             font-weight: 600;
             border: 0;
             outline: 0;
@@ -127,7 +136,7 @@
             min-width: 250px;
             background-color: rgba(37, 37, 37, 0.5);
             backdrop-filter: blur(10px);
-            border-radius: 25px;
+            border-radius: 50px;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -154,6 +163,7 @@
             justify-content: center;
             padding: 24px 0px;
             font-family:Arial, Helvetica, sans-serif;
+            font-size: 16px;
             font-weight: 600;
             color: white;
         }
@@ -204,19 +214,144 @@
             padding-top: 16px;
             width: 16px;
         }
+        .delete-btn ::-ms-fill{
+            background-color: white;
+        }
+        #tvcards a, #ottcards a, #customcards a, #musiccards a{
+            display: flex;
+            flex-direction: row;
+            gap: 16px;
+            text-decoration: none;
+        }
+        #tvcards a img, #ottcards a img, #customcards a img, #musiccards a img{
+            width: 16px;
+        }
+        #ottcards, #tvcards , #customcards, #musiccards{
+            display: flex;
+            flex-direction: row;
+            gap: 16px;
+            word-wrap: break-word;
+        }
+        /* The switch - the box around the slider */
+        .switch {
+          position: relative;
+          display: inline-block;
+          width: 36px;
+          height: 24px;
+        }
+
+        /* Hide default HTML checkbox */
+        .switch input {
+          opacity: 0;
+          width: 0;
+          height: 0;
+        }
+
+        /* The slider */
+        .slider {
+          position: absolute;
+          cursor: pointer;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background-color: #cccccc79;
+          -webkit-transition: .4s;
+          transition: .4s;
+        }
+
+        .slider:before {
+          position: absolute;
+          content: "";
+          height: 16px;
+          width: 16px;
+          left: 4px;
+          bottom: 4px;
+          background-color: white;
+          -webkit-transition: .4s;
+          transition: .4s;
+        }
+
+        input:checked + .slider {
+          background-color: black;
+        }
+
+        input:focus + .slider {
+          box-shadow: 0 0 1px #000000;
+        }
+
+        input:checked + .slider:before {
+          -webkit-transform: translateX(16px);
+          -ms-transform: translateX(12px);
+          transform: translateX(12px);
+        }
+
+        /* Rounded sliders */
+        .slider.round {
+          border-radius: 50px;
+        }
+
+        .slider.round:before {
+          border-radius: 50%;
+        }
+        .settings {
+          display: flex;
+          flex-direction: row;
+          justify-self: center;
+          align-items: center;
+          gap: 8px;
+        }
+        #tvcards img,#ottcards img,#customcards img,#musiccards img {
+          height: 36px;
+          margin: auto;
+          cursor: pointer;
+        }
+        @keyframes blend {
+          from {opacity: 100%;}
+          to {opacity: 0%;}
+        }
+        .splash {
+          position: fixed;
+          height: 100vh;
+          width: 100vw;
+          z-index: 20;
+          background-color: #000000;
+          display: flex;
+          justify-content: center;
+          animation: blend;
+          animation-duration: 3.8s;
+        }
+        @keyframes breathing {
+          0% {opacity: 0%;}
+          50% {opacity: 100%;}
+          100% {opacity: 0%;} 
+        }
+        .splash img{
+          width: 500px;
+          animation: breathing;
+          animation-duration: 3.8s;
+          animation-iteration-count: infinite;
+        }
     </style>
 </head>
 <body>
     <!-- <a href="webrun:C:\123movies.lnk">123movies</a> -->
+    <div class="splash"><img src="webtvlogo.svg" alt=""></div>
     <div class="filter"></div>
     <video autoplay muted loop id="myVideo">
         <source src="trijya.mp4" type="video/mp4">
     </video>
     <div class="nav">
-        <a href="#livetv"><div          class="btn">Live TV</div></a>
+        <a href="#livetv"><div  class="btn">Live TV</div></a>
         <a href="#ott"><div class="btn">OTT</div></a>
         <a href="#custom"><div class="btn">Your Content</div></a>
         <a href="#music"><div class="btn">Music</div></a>
+        <div class="settings">Settings
+          <label class="switch">
+            <input type="checkbox">
+            <span class="slider round"></span>
+          </label>
+        </div>
     </div>
     <div class="featured">
         <img src="mubi.svg">
@@ -226,24 +361,27 @@
     <div class="websites">
         <div class="livetv" id="livetv">
             <div>Live TV</div>
-            <div class="cards" id="outputDiv1" class="outputDiv">
+            <div class="cards">
                 <a href="https://www.watcho.com/live-tv"><div class="card" class="watcho"><img src="watcho.png" alt=""></div></a>
                 <a href="https://www.yupptv.com/"><div class="yupptv"><img src="yupptv.svg" alt=""></div></a>
+                <!-- d -->
+                <div id="tvcards"></div>
                 <div class="addcard">
-                    <input type="text" id="inputField1" placeholder="Enter Live TV URL">
-                    <button onclick="storeAndDisplay(1)"><img src="add.svg"></button>
+                    <input type="text" id="input1" placeholder="Live TV URL">
+                    <button id="submit1" onclick="addTV()"><img src="add.svg"></button>
                 </div>
             </div>
         </div>
         <div class="OTT" id="ott">
             <div>OTT</div>
-            <div class="cards" id="outputDiv2" class="outputDiv">
+            <div class="cards">
                 <a href="https://www.youtube.com/"><div class="card" class="watcho"><img src="youtube.svg" alt=""></div></a>
                 <a href="https://www.mxplayer.in/"><div class="card"><img src="mxplayer.png" alt=""></div></a>
                 <a href="https://www.jiocinema.com/"><div class="card"><img src="jiocinema.png" alt=""></div></a>
+                <div id="ottcards"></div>
                 <div class="addcard">
-                    <input type="text" id="inputField2" placeholder="Enter OTT Platform URL">
-                    <button onclick="storeAndDisplay(2)"><img src="add.svg"></button>
+                    <input type="text" id="input2" placeholder="OTT URL">
+                    <button id="submit2" onclick="addOTT()"><img src="add.svg"></button>
                 </div>
             </div>
         </div>
@@ -253,9 +391,10 @@
                 <a href="https://drive.google.com/drive/my-drive"><div class="card" class="watcho"><img src="gdrive.svg" alt=""></div></a>
                 <a href="https://web.whatsapp.com/"><div class="card"><img src="whatsapp.png" alt=""></div></a>
                 <a href="https://web.telegram.org/a/"><div class="card"><img src="telegram.png" alt=""></div></a>
+                <div id="customcards"></div>
                 <div class="addcard">
-                    <input type="text" id="inputField3" placeholder="Enter Your Content URL">
-                    <button onclick="storeAndDisplay(3)"><img src="add.svg"></button>
+                    <input type="text" id="input3" placeholder="Your Content URL">
+                    <button id="submit3" onclick="addCustom()"><img src="add.svg"></button>
                 </div>
             </div>
         </div>
@@ -263,97 +402,372 @@
             <div>Music</div>
             <div class="cards" id="outputDiv4" class="outputDiv">
                 <a href="https://open.spotify.com/"><div class="card" class="watcho"><img src="spotify.svg" alt=""></div></a>
+                <div id="musiccards"></div> 
                 <div class="addcard">
-                    <input type="text" id="inputField4" placeholder="Enter Music Platform URL">
-                    <button onclick="storeAndDisplay(4)"><img src="add.svg"></button>
+                    <input type="text" id="input4" placeholder="Music URL">
+                    <button id="submit4" onclick="addMusic()"><img src="add.svg"></button>
                 </div>
             </div>
         </div>
     </div>
     <script>
-        // Function to store input values in local storage and display them
-        function storeAndDisplay(index) {
-            var storedValues = [];
+        document.addEventListener('DOMContentLoaded', function() {
+      // Load tasks from local storage
+      loadTV();
+      loadOTT();
+      loadCustom();
+      loadMusic();
+    });
+    setTimeout(function(){$('.splash').hide()}, 3800);
+    $(document).ready(function(){
+      
+    })
+    $(document).ready(function() {
+        $(".addcard").hide();
+        $("#tvcards img").hide();
+        $("#ottcards img").hide();
+        $("#customcards img").hide();
+        $("#musiccards img").hide();
+      $(".switch input").click(function() {
+        $(".addcard").toggle();
+        $("#tvcards img").toggle();
+        $("#ottcards img").toggle();
+        $("#customcards img").toggle();
+        $("#musiccards img").toggle();
+      });
+    });
 
-            // Get the input field and value for the specific set
-            var inputField = document.getElementById('inputField' + index);
-            var inputValue = inputField.value;
+    function addTV() {
+      var tvInput = document.getElementById('input1');
+      var tvText = tvInput.value.trim();
+      let tvText2;
+      
 
-            // Store the input value in local storage
-            localStorage.setItem('userInput' + index, inputValue);
+      if (tvText === '') {
+        alert('Please enter a task.');
+        return;
+      }
 
-            // Add the input value to the array for display
-            storedValues.push(inputValue);
+      // Get existing tasks from local storage
+      var tvs = JSON.parse(localStorage.getItem('tvs')) || [];
 
-            // Display the stored value in the output div
-            displayStoredValue(inputValue, index);
+      // Add the new task
+      tvs.push(tvText);
 
-            // Display the stored value in the output divs without clearing
-            appendStoredValues(storedValues, index);
-        }
+      // Save tasks to local storage
+      localStorage.setItem('tvs', JSON.stringify(tvs));
 
-        // Function to display a single stored value in a div
-        function displayStoredValue(value, index) {
-            var outputDiv = document.getElementById('outputDiv' + index);
+      // Reload the tasks
+      loadTV();
 
-            // Display the stored value in a new div
-            var divElement = document.createElement('div');
-            divElement.textContent = 'User Input ' + index + ': ' + value;
+      // Clear the input field
+      tvInput.value = '';
+    }
+    let tvElement;
+    let tvContainer;
+    function loadTV() {
+        tvContainer = document.getElementById('tvcards');
+      tvContainer.innerHTML = '';
+      // Get tasks from local storage
+      var tvs = JSON.parse(localStorage.getItem('tvs')) || [];
 
-            // Add an SVG icon for deletion
-            var svgDeleteIcon = createDeleteIcon(index);
-            divElement.appendChild(svgDeleteIcon);
-
-            // Append the new div to the output div without clearing
-            outputDiv.appendChild(divElement);
-        }
-
-        // Function to create an SVG delete icon
-        function createDeleteIcon(index) {
-            var svgNS = 'http://www.w3.org/2000/svg';
-            var svgDeleteIcon = document.createElementNS(svgNS, 'svg');
-            svgDeleteIcon.setAttribute('class', 'deleteIcon');
-            svgDeleteIcon.setAttribute('width', '24');
-            svgDeleteIcon.setAttribute('height', '24');
-            svgDeleteIcon.setAttribute('viewBox', '0 0 24 24');
-            svgDeleteIcon.innerHTML = '<path fill="#000000" d="M19 6h-4V2H9v4H5v2h14V6zM6 21h12c1.1 0 2-.9 2-2V7h-2v12c0 .6-.4 1-1 1H9c-.6 0-1-.4-1-1V7H6v12c0 1.1.9 2 2 2z"/>';
-
-            // Add a click event listener to the delete icon
-            svgDeleteIcon.addEventListener('click', function () {
-                deleteStoredValue(index);
-            });
-
-            return svgDeleteIcon;
-        }
-
-        // Function to delete a stored value and its associated div
-        function deleteStoredValue(index) {
-            localStorage.removeItem('userInput' + index);
-            var outputDiv = document.getElementById('outputDiv' + index);
-
-            // Remove the last child (latest div) from the output div
-            outputDiv.removeChild(outputDiv.lastChild);
-        }
-
-        // Function to append stored values in the output div without clearing
-        function appendStoredValues(values, index) {
-            var outputDiv = document.getElementById('outputDiv' + index);
-
-            // Display the stored value in a new div without clearing
-            var divElement = document.createElement('div');
-            divElement.textContent = 'User Input ' + index + ': ' + values[0];
-
-            // Add an SVG icon for deletion
-            var svgDeleteIcon = createDeleteIcon(index);
-            divElement.appendChild(svgDeleteIcon);
-
-            // Append the new div to the output div without clearing
-            outputDiv.appendChild(divElement);
-        }
-        // $( document ).ready(function() {
-        //     displayStoredValues(value, index);
-        // });
+      // Display tasks
+      let deleteButton;
+      let index;
+      let tvElement;
+      let tvlink;
+      deleteButton = document.createElement('button');
+        deleteButton.textContent = 'Delete';
+        deleteButton.onclick = function() {
+          deleteTV(index);
+        };
+      tvs.forEach(function(tvText, index) {
+        tvElement = document.createElement('div');
+        tvText2 = tvText.replace('.com','');
+        tvText2 = tvText2.replace('https://','');
+        tvText2 = tvText2.replace('www.','');
+        tvText2 = tvText2.replace('.','');
+        tvText2 = tvText2.replace('/','');
+        tvElement.textContent = tvText2;
+        tvElement.className = 'card';
         
+        deleteButton = document.createElement('img');
+        deleteButton.src = "delete.svg"
+        deleteButton.textContent = 'Delete';
+        deleteButton.onclick = function() {
+          deleteTV(index);
+        };
+        
+        tvlink = document.createElement('a');
+        tvlink.href = tvText;
+        tvContainer.appendChild(tvlink);
+        tvlink.appendChild(tvElement);
+        tvContainer.appendChild(deleteButton);
+        
+      });
+       
+    }
+    function deleteTV(index) {
+      // Get existing tasks from local storage
+      var tvs = JSON.parse(localStorage.getItem('tvs')) || [];
+
+      // Remove the task at the specified index
+      tvs.splice(index, 1);
+
+      // Save updated tasks to local storage
+      localStorage.setItem('tvs', JSON.stringify(tvs));
+
+      
+
+      // Reload the tasks
+      loadTV();
+    }
+
+    function addOTT() {
+      var ottInput = document.getElementById('input2');
+      var ottText = ottInput.value.trim();
+      let ottText2;
+      
+
+      if (ottText === '') {
+        alert('Please enter a task.');
+        return;
+      }
+
+      // Get existing tasks from local storage
+      var otts = JSON.parse(localStorage.getItem('otts')) || [];
+
+      // Add the new task
+      otts.push(ottText);
+
+      // Save tasks to local storage
+      localStorage.setItem('otts', JSON.stringify(otts));
+
+      // Reload the tasks
+      loadOTT();
+
+      // Clear the input field
+      ottInput.value = '';
+    }
+    let ottElement;
+    let ottContainer;
+    function loadOTT() {
+        ottContainer = document.getElementById('ottcards');
+      ottContainer.innerHTML = '';
+      // Get tasks from local storage
+      var otts = JSON.parse(localStorage.getItem('otts')) || [];
+
+      // Display tasks
+      let deleteButton2;
+      let index2;
+      let ottElement;
+      let ottlink;
+      deleteButton2 = document.createElement('button');
+        deleteButton2.textContent = 'Delete';
+        deleteButton2.onclick = function() {
+          deleteOTT(index2);
+        };
+      otts.forEach(function(ottText, index2) {
+        ottElement = document.createElement('div');
+        ottText2 = ottText.slice(ottText.indexOf('.'),ottText.indexOf('.c') || ottText.indexOf('.o') || ottText.indexOf('.i') || ottText.indexOf('.n'));
+        ottText2 = ottText2.slice(1, )
+        ottElement.textContent = ottText2;
+        ottElement.className = 'card';
+        
+        deleteButton2 = document.createElement('img');
+        deleteButton2.src = "delete.svg"
+        deleteButton2.textContent = 'Delete';
+        deleteButton2.onclick = function() {
+          deleteOTT(index2);
+        };
+        
+        ottlink = document.createElement('a');
+        ottlink.href = ottText;
+        ottContainer.appendChild(ottlink);
+        ottlink.appendChild(ottElement);
+        ottContainer.appendChild(deleteButton2);
+      });
+       
+    }
+    function deleteOTT(index2) {
+      // Get existing tasks from local storage
+      var otts = JSON.parse(localStorage.getItem('otts')) || [];
+
+      // Remove the task at the specified index
+      otts.splice(index2, 1);
+
+      // Save updated tasks to local storage
+      localStorage.setItem('otts', JSON.stringify(otts));
+
+      
+
+      // Reload the tasks
+      loadOTT();
+    }
+
+    function addCustom() {
+      var customInput = document.getElementById('input3');
+      var customText = customInput.value.trim();
+      let customText2;
+      
+
+      if (customText === '') {
+        alert('Please enter a task.');
+        return;
+      }
+
+      // Get existing tasks from local storage
+      var customs = JSON.parse(localStorage.getItem('customs')) || [];
+
+      // Add the new task
+      customs.push(customText);
+
+      // Save tasks to local storage
+      localStorage.setItem('customs', JSON.stringify(customs));
+
+      // Reload the tasks
+      loadCustom();
+
+      // Clear the input field
+      customInput.value = '';
+    }
+    let customElement;
+    let customContainer;
+    function loadCustom() {
+        customContainer = document.getElementById('customcards');
+      customContainer.innerHTML = '';
+      // Get tasks from local storage
+      var customs = JSON.parse(localStorage.getItem('customs')) || [];
+
+      // Display tasks
+      let deleteButton3;
+      let index3;
+      let customElement;
+      let customlink;
+      deleteButton3 = document.createElement('button');
+        deleteButton3.textContent = 'Delete';
+        deleteButton3.onclick = function() {
+          deleteCustom(index3);
+        };
+      customs.forEach(function(customText, index3) {
+        customElement = document.createElement('div');
+        customText2 = customText.slice(customText.indexOf('.'),customText.indexOf('.c') || customText.indexOf('.o') || customText.indexOf('.i') || customText.indexOf('.n'));
+        customText2 = customText2.slice(1, )
+        customElement.textContent = customText2;
+        customElement.className = 'card';
+        
+        deleteButton3 = document.createElement('img');
+        deleteButton3.src = "delete.svg"
+        deleteButton3.textContent = 'Delete';
+        deleteButton3.onclick = function() {
+          deleteCustom(index3);
+        };
+        
+        customlink = document.createElement('a');
+        customlink.href = customText;
+        customContainer.appendChild(customlink);
+        customlink.appendChild(customElement);
+        customContainer.appendChild(deleteButton3);
+      });
+       
+    }
+    function deleteCustom(index3) {
+      // Get existing tasks from local storage
+      var customs = JSON.parse(localStorage.getItem('customs')) || [];
+
+      // Remove the task at the specified index
+      customs.splice(index3, 1);
+
+      // Save updated tasks to local storage
+      localStorage.setItem('customs', JSON.stringify(customs));
+
+      
+
+      // Reload the tasks
+      loadCustom();
+    }
+
+    function addMusic() {
+      var musicInput = document.getElementById('input4');
+      var musicText = musicInput.value.trim();
+      let musicText2;
+      
+
+      if (musicText === '') {
+        alert('Please enter a task.');
+        return;
+      }
+
+      // Get existing tasks from local storage
+      var musics = JSON.parse(localStorage.getItem('musics')) || [];
+
+      // Add the new task
+      musics.push(musicText);
+
+      // Save tasks to local storage
+      localStorage.setItem('musics', JSON.stringify(musics));
+
+      // Reload the tasks
+      loadMusic();
+
+      // Clear the input field
+      musicInput.value = '';
+    }
+    let musicElement;
+    let musicContainer;
+    function loadMusic() {
+        musicContainer = document.getElementById('musiccards');
+        musicContainer.innerHTML = '';
+      // Get tasks from local storage
+      var musics = JSON.parse(localStorage.getItem('musics')) || [];
+
+      // Display tasks
+      let deleteButton4;
+      let index4;
+      let musicElement;
+      let musiclink;
+      deleteButton4 = document.createElement('button');
+      deleteButton4.textContent = 'Delete';
+      deleteButton4.onclick = function() {
+          deleteCustom(index4);
+        };
+      musics.forEach(function(musicText, index4) {
+        musicElement = document.createElement('div');
+        musicText2 = musicText.slice(musicText.indexOf('.'),musicText.indexOf('.c') || musicText.indexOf('.o') || musicText.indexOf('.i') || musicText.indexOf('.n'));
+        musicText2 = musicText2.slice(1, )
+        musicElement.textContent = musicText2;
+        musicElement.className = 'card';
+        
+        deleteButton4 = document.createElement('img');
+        deleteButton4.src = "delete.svg"
+        deleteButton4.textContent = 'Delete';
+        deleteButton4.onclick = function() {
+          deleteMusic(index4);
+        };
+        
+        musiclink = document.createElement('a');
+        musiclink.href = musicText;
+        musicContainer.appendChild(musiclink);
+        musiclink.appendChild(musicElement);
+        musicContainer.appendChild(deleteButton4);
+      });
+       
+    }
+    function deleteMusic(index4) {
+      // Get existing tasks from local storage
+      var musics = JSON.parse(localStorage.getItem('musics')) || [];
+
+      // Remove the task at the specified index
+      musics.splice(index4, 1);
+
+      // Save updated tasks to local storage
+      localStorage.setItem('musics', JSON.stringify(musics));
+
+      
+
+      // Reload the tasks
+      loadMusic();
+    }
     </script>
 </body>
 </html>
