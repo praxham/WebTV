@@ -1,7 +1,6 @@
 # WebTV
 A Web Based TV
-![WebTV](https://github.com/prathampatankar/WebTV/assets/83165113/a9e05938-6ea6-49ee-8dd1-21cd405a8410)
-![WebTV_Settings](https://github.com/prathampatankar/WebTV/assets/83165113/d146c723-792c-4174-b4a4-8f93105e0b1a)
+![image](https://github.com/prathampatankar/WebTV/assets/83165113/9943f7fe-bfb2-4447-a684-f5c639f8f705)
 
 You can get google tv like experience in browser, add your favourite websites or start watching content right away from popular free content providers.
 
