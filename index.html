@@ -7,6 +7,14 @@
     <link rel="icon" type="image/x-icon" href="webtvlogo.svg">
     <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
     <link rel="manifest" href="manifest.json" />
+    <script src="https://cdn.jsdelivr.net/npm/kursor"></script>
+    <link rel="stylesheet" href="https://unpkg.com/kursor/dist/kursor.css">
+    <script src="https://unpkg.com/kursor"></script>
+    <script src="https://unpkg.com/@gauntface/dpad-nav@3.0.1/build/helper/helper/dpad.js" async defer></script>
+    <script src="https://unpkg.com/@gauntface/dpad-nav@3.0.1/build/helper/helper/dpad-debugger.js" async defer></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
         html{
             scroll-behavior: smooth;
@@ -27,13 +35,20 @@
             -ms-overflow-style: none;
             scrollbar-width: none;
             margin: 0;
+            /* overflow-x: hidden; */
+        }
+        .container {
+          height: 100vh;
+          margin: auto 50px 50px 50px;
+          display: flex;
+          flex-direction: column;
         }
         @font-face {
             font-family: Trajan;
             src: url('TrajanRegular.ttf');
         }
         .featured {
-            margin: 36px 24px;
+            margin-top: auto;
             display: flex;
             flex-direction: column;
             justify-content: left;
@@ -52,23 +67,29 @@
             color: white;
         }
         .watch {
-            font-family:Arial, Helvetica, sans-serif;
+            font-family: 'Roboto', sans-serif;
             font-weight: 600;
             font-size: 18px;
             padding: 8px 16px;
             border-radius: 50px;
             background-color: white;
             width: fit-content;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .watch img {
+          height: 12px !important;
         }
         .websites {
-            margin-left: 24px;
-            font-family:Arial, Helvetica, sans-serif;
-            font-weight: 600;
-            font-size: 36px;
+            font-family: 'Roboto', sans-serif;
+            font-weight: 500;
+            font-size: 24px;
             color: white;
             display: flex;
             flex-direction: column;
             gap: 24px;
+            padding-top: 24px;
             padding-bottom: 24px;
         }
         .livetv, .OTT, .Custom, .Music{
@@ -76,7 +97,23 @@
             flex-direction: column;
             gap: 16px;
         }
-        .card {
+        .card,.dpad-focusable {
+            width: 250px;
+            height: 150px;
+            min-width: 250px;
+            background-color: white;
+            border-radius: 50px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+            padding: 0;
+        }
+        .card:empty {
+          display: none;
+        }
+        .card2 {
             width: 250px;
             height: 150px;
             min-width: 250px;
@@ -88,16 +125,41 @@
             align-items: center;
         }
         .card img{
-            width: 150px;
+            min-height: 40px !important;
+            max-height: 100px !important;
+            max-width: 200px !important;
             height: fit-content;
             mix-blend-mode: multiply;
             pointer-events: none;
         }
-        .cards ,#tvcards{
+        .cards {
             display: flex;
+            border-radius: 50px;
+            background: rgba(64, 64, 64, 0.50);
+            backdrop-filter: blur(16px);
+            width: auto;
             gap: 16px;
-            overflow-y: auto;
-            overflow: visible;
+            padding: 16px 16px;
+            overflow-x: auto;
+            scroll-padding-right: 250px;
+            scroll-padding-left: 250px;
+            /* white-space: nowrap; */
+            /* border: 1px solid white; */
+        }
+        .cards2 {
+            display: flex;
+            flex-wrap: wrap;
+            border-radius: 50px;
+            background: rgba(64, 64, 64, 0.50);
+            backdrop-filter: blur(8px);
+            gap: 16px;
+            width: auto;
+            margin-top: 24px;
+            padding: 16px 16px;
+            overflow-x: scroll;
+            overflow: hidden;
+            white-space: nowrap;
+            /* border: 1px solid white; */
         }
         .blackcard {
             width: 250px;
@@ -110,7 +172,26 @@
             justify-content: center;
             align-items: center;
         }
+        .blackcard2 {
+            width: 250px;
+            height: 150px;
+            min-width: 250px;
+            background-color: black;
+            border-radius: 50px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
         .blackcard img {
+          height: 40px !important;
+          max-width: 200px !important;
+          pointer-events: none;
+        }
+        .blackcard2 img {
+          /* height: 40px !important;
+          max-width: 200px !important; */
           pointer-events: none;
         }
         a :hover,:focus{
@@ -118,6 +199,8 @@
             border-radius: 50px;
             outline-offset: 4px;
             width: fit-content;
+            /* transition: scale(1.05) 1s; */
+            transition: transform 1s ease-in-out;
         }
         input {
             width: 125px;
@@ -164,11 +247,12 @@
         .nav {
             display: flex;
             gap: 24px;
-            justify-content: center;
+            justify-content: right;
+            /* margin-right: 50px; */
             padding: 24px 0px;
-            font-family:Arial, Helvetica, sans-serif;
-            font-size: 16px;
-            font-weight: 600;
+            font-family: 'Roboto', sans-serif;
+            font-size: 24px;
+            font-weight: 500;
             color: white;
         }
         .featured a {
@@ -202,6 +286,7 @@
             background: linear-gradient(180deg, rgba(0, 0, 0, 0.00) 0%, #000 100%), lightgray 50% / cover no-repeat;
             z-index: -40;
             position: fixed;
+            display: none;
         }
         .watch img{
             height: 12px;
@@ -226,6 +311,10 @@
             flex-direction: row;
             gap: 16px;
             text-decoration: none;
+            margin-right: 0;
+            margin-left: 0;
+            padding-left: 0;
+            padding-right: 0;
         }
         #tvcards a img, #ottcards a img, #customcards a img, #musiccards a img{
             width: 16px;
@@ -304,6 +393,11 @@
           justify-self: center;
           align-items: center;
           gap: 8px;
+          fill: white;
+        }
+        .settings img {
+          fill: white;
+          height: 24px;
         }
         #tvcards img,#ottcards img,#customcards img,#musiccards img {
           height: 36px;
@@ -337,8 +431,51 @@
           animation-iteration-count: infinite;
         }
         .sonyliv {
-          width: 96px !important;
+          width: 150px !important;
+          height: 150px !important;
+          pointer-events: none;
         }
+        #Kodi img {
+          width: 200px !important;
+          height: 100px !important;
+          display: block !important;
+        }
+        #plex img {
+          width: 200px !important;
+          height: 100px !important;
+          display: block !important
+        }
+        #netflix img {
+          width: 200px !important;
+          height: 100px !important;
+          display: block !important
+        }
+        #primevideo img {
+          width: 200px !important;
+          height: 100px !important;
+          display: block !important
+        }
+        #disneyplus img {
+          width: 200px !important;
+          height: 100px !important;
+          display: block !important
+        }
+        #zee5 img {
+          width: 200px !important;
+          height: 100px !important;
+          display: block !important
+        }
+        #sonyliv img {
+          width: 150px !important;
+          height: 150px !important;
+          pointer-events: none;
+          display: block !important
+        }
+        /* Target elements with no text content, no children, and no whitespace */
+        :blank {
+          display: none;
+        }
+
     </style>
 </head>
 <body>
@@ -348,12 +485,9 @@
     <video autoplay muted loop id="myVideo">
         <source src="trijya.mp4" type="video/mp4">
     </video>
-    <div class="nav">
-        <a href="#livetv"><div  class="btn">Live TV</div></a>
-        <a href="#ott"><div class="btn">OTT</div></a>
-        <a href="#custom"><div class="btn">Your Content</div></a>
-        <a href="#music"><div class="btn">Music</div></a>
-        <div class="settings">Settings
+    <div class="container">
+      <div class="nav">
+        <div class="settings"><img src="settings.svg" alt="">
           <label class="switch">
             <input type="checkbox">
             <span class="slider round"></span>
@@ -367,26 +501,49 @@
     </div>
     <div class="websites">
         <div class="livetv" id="livetv">
-            <div>Live TV</div>
+            <!-- <div>Live TV</div> -->
             <div class="cards">
-                <a href="https://www.watcho.com/live-tv"><div class="card" class="watcho"><img src="watcho.png" alt=""></div></a>
-                <a href="https://www.yupptv.com/"><div class="blackcard"><img src="yupptv.svg" alt=""></div></a>
-                <!-- d -->
+                <a class="dpad-focusable" href="https://www.watcho.com/live-tv"><div class="card" class="watcho"><img src="watcho.svg" alt=""></div></a>
+                <a class="dpad-focusable" href="https://www.yupptv.com/"><div class="blackcard"><img src="yupptv.svg" alt=""></div></a>
+                <a class="dpad-focusable" href="http://radio.garden/"><div class="card"><img src="radio.svg" alt=""></div></a>
                 <div id="tvcards"></div>
+                <a class="dpad-focusable" href="https://www.youtube.com/tv#/"><div class="card"><img src="youtube.svg" alt=""></div></a>
+                <a class="dpad-focusable" href="https://www.jiocinema.com/"><div class="blackcard"><img src="jc_logo_v2.svg" alt=""></div></a>
+                <a class="dpad-focusable" href="https://www.mxplayer.in/"><div class="card"><img src="MX_Player_logo.svg" alt=""></div></a>
+                <div id="ottcards"></div>
+                <a class="dpad-focusable" href="https://drive.google.com/drive/my-drive"><div class="card"><img src="Google_Drive_icon_(2020).svg" alt=""></div></a>
+                <a class="dpad-focusable" href="https://app.plex.tv/desktop/#!/"><div class="card"><img src="Plex_logo_2022.svg" alt=""></div></a>
+                <!-- <a class="dpad-focusable" href="https://web.whatsapp.com/"><div class="card"><img src="whatsapp.png" alt=""></div></a>
+                <a class="dpad-focusable" href="https://web.telegram.org/a/"><div class="card"><img src="telegram.png" alt=""></div></a> -->
+                <div id="customcards"></div>
+                <a class="dpad-focusable" href="https://open.spotify.com/"><div class="card"><img src="spotify.svg" alt=""></div></a>
+                <a class="dpad-focusable" href="https://music.apple.com/"><div class="card"><img src="Apple_Music_logo.svg" alt=""></div></a>
+                <a class="dpad-focusable" href="https://www.jiosaavn.com/"><div class="card"><img src="JioSaavn_Logo.svg" alt=""></div></a>
+                <div id="musiccards"></div>
                 <div class="addcard">
-                    <input type="text" id="input1" placeholder="Live TV URL">
-                    <button id="submit1" onclick="addTV()"><img src="add.svg"></button>
+                  <input type="text" id="input1" placeholder="Live TV URL">
+                  <button id="submit1" onclick="addTV()"><img src="add.svg"></button>
+                </div>
+                <div class="addcard">
+                  <input type="text" id="input2" placeholder="OTT URL">
+                  <button id="submit2" onclick="addOTT()"><img src="add.svg"></button>
+                </div>
+                <div class="addcard">
+                  <input type="text" id="input3" placeholder="Your Content URL">
+                  <button id="submit3" onclick="addCustom()"><img src="add.svg"></button>
+                </div>
+                <div class="addcard">
+                  <input type="text" id="input4" placeholder="Music URL">
+                  <button id="submit4" onclick="addMusic()"><img src="add.svg"></button>
                 </div>
             </div>
         </div>
-        <div class="OTT" id="ott">
+        <!-- <div class="OTT" id="ott">
             <div>OTT</div>
             <div class="cards">
-                <a href="https://www.youtube.com/"><div class="card" class="watcho"><img src="youtube.svg" alt=""></div></a>
-                <a href="https://www.mxplayer.in/"><div class="card"><img src="mxplayer.png" alt=""></div></a>
-                <a href="https://www.jiocinema.com/"><div class="card"><img src="jiocinema.png" alt=""></div></a>
-                <a href="https://www.sonyliv.com/"><div class="card"><img class="sonyliv" src="sonyliv.png" alt=""></div></a>
-                <a href="https://www.zee5.com/"><div class="blackcard"><img src="zee5.svg" alt=""></div></a>
+                <a class="dpad-focusable" href="https://www.youtube.com/tv#/"><div class="card"><img src="youtube.svg" alt=""></div></a>
+                <a class="dpad-focusable" href="https://www.jiocinema.com/"><div class="blackcard"><img src="jc_logo_v2.svg" alt=""></div></a>
+                <a class="dpad-focusable" href="https://www.mxplayer.in/"><div class="card"><img src="MX_Player_logo.svg" alt=""></div></a>
                 <div id="ottcards"></div>
                 <div class="addcard">
                     <input type="text" id="input2" placeholder="OTT URL">
@@ -397,9 +554,10 @@
         <div class="Custom" id="custom">
             <div>Your Content</div>
             <div class="cards" id="outputDiv3" class="outputDiv">
-                <a href="https://drive.google.com/drive/my-drive"><div class="card" class="watcho"><img src="gdrive.svg" alt=""></div></a>
-                <a href="https://web.whatsapp.com/"><div class="card"><img src="whatsapp.png" alt=""></div></a>
-                <a href="https://web.telegram.org/a/"><div class="card"><img src="telegram.png" alt=""></div></a>
+                <a class="dpad-focusable" href="https://drive.google.com/drive/my-drive"><div class="card"><img src="Google_Drive_icon_(2020).svg" alt=""></div></a>
+                <a class="dpad-focusable" href="https://app.plex.tv/desktop/#!/"><div class="card"><img src="Plex_logo_2022.svg" alt=""></div></a>
+                <a class="dpad-focusable" href="https://web.whatsapp.com/"><div class="card"><img src="whatsapp.png" alt=""></div></a>
+                <a class="dpad-focusable" href="https://web.telegram.org/a/"><div class="card"><img src="telegram.png" alt=""></div></a>
                 <div id="customcards"></div>
                 <div class="addcard">
                     <input type="text" id="input3" placeholder="Your Content URL">
@@ -410,15 +568,55 @@
         <div class="Music" id="music">
             <div>Music</div>
             <div class="cards" id="outputDiv4" class="outputDiv">
-                <a href="https://open.spotify.com/"><div class="card" class="watcho"><img src="spotify.svg" alt=""></div></a>
+                <a class="dpad-focusable" href="https://open.spotify.com/"><div class="card"><img src="spotify.svg" alt=""></div></a>
+                <a class="dpad-focusable" href="https://music.apple.com/"><div class="card"><img src="Apple_Music_logo.svg" alt=""></div></a>
+                <a class="dpad-focusable" href="https://www.jiosaavn.com/"><div class="card"><img src="JioSaavn_Logo.svg" alt=""></div></a>
                 <div id="musiccards"></div> 
                 <div class="addcard">
                     <input type="text" id="input4" placeholder="Music URL">
                     <button id="submit4" onclick="addMusic()"><img src="add.svg"></button>
                 </div>
             </div>
+        </div> -->
+    </div>
+    </div>
+    <!-- <div class="container">
+      <div class="cards2">
+        <a class="dpad-focusable" href="https://www.watcho.com/live-tv"><div class="card" class="watcho"><img src="watcho.svg" alt=""></div></a>
+        <a class="dpad-focusable" href="https://www.yupptv.com/"><div class="blackcard"><img src="yupptv.svg" alt=""></div></a>
+        <a class="dpad-focusable" href="http://radio.garden/"><div class="card"><img src="radio.svg" alt=""></div></a>
+        <div id="tvcards"></div>
+        <a class="dpad-focusable" href="https://www.youtube.com/tv#/"><div class="card"><img src="youtube.svg" alt=""></div></a>
+        <a class="dpad-focusable" href="https://www.jiocinema.com/"><div class="blackcard"><img src="jc_logo_v2.svg" alt=""></div></a>
+        <a class="dpad-focusable" href="https://www.mxplayer.in/"><div class="card"><img src="MX_Player_logo.svg" alt=""></div></a>
+        <div id="ottcards"></div>
+        <a class="dpad-focusable" href="https://drive.google.com/drive/my-drive"><div class="card"><img src="Google_Drive_icon_(2020).svg" alt=""></div></a>
+        <a class="dpad-focusable" href="https://app.plex.tv/desktop/#!/"><div class="card"><img src="Plex_logo_2022.svg" alt=""></div></a>
+        <a class="dpad-focusable" href="https://web.whatsapp.com/"><div class="card"><img src="whatsapp.png" alt=""></div></a>
+        <a class="dpad-focusable" href="https://web.telegram.org/a/"><div class="card"><img src="telegram.png" alt=""></div></a>
+        <div id="customcards"></div>
+        <a class="dpad-focusable" href="https://open.spotify.com/"><div class="card"><img src="spotify.svg" alt=""></div></a>
+        <a class="dpad-focusable" href="https://music.apple.com/"><div class="card"><img src="Apple_Music_logo.svg" alt=""></div></a>
+        <a class="dpad-focusable" href="https://www.jiosaavn.com/"><div class="card"><img src="JioSaavn_Logo.svg" alt=""></div></a>
+        <div id="musiccards"></div>
+        <div class="addcard">
+          <input type="text" id="input1" placeholder="Live TV URL">
+          <button id="submit1" onclick="addTV()"><img src="add.svg"></button>
+        </div>
+        <div class="addcard">
+          <input type="text" id="input2" placeholder="OTT URL">
+          <button id="submit2" onclick="addOTT()"><img src="add.svg"></button>
+        </div>
+        <div class="addcard">
+          <input type="text" id="input3" placeholder="Your Content URL">
+          <button id="submit3" onclick="addCustom()"><img src="add.svg"></button>
+        </div>
+        <div class="addcard">
+          <input type="text" id="input4" placeholder="Music URL">
+          <button id="submit4" onclick="addMusic()"><img src="add.svg"></button>
         </div>
     </div>
+    </div> -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
       // Load tasks from local storage
@@ -496,9 +694,11 @@
         tvText2 = extractWebsiteName(tvText);
         tvText2 = tvText2.replace('//','')
         tvText2 = tvText2.replace('www','')
+        tvText2 = tvText2.replace('C:\\','')
         tvElement.textContent = tvText2;
         tvElement.className = 'card';
-        
+        tvElement.id = tvText2;
+
         deleteButton = document.createElement('img');
         deleteButton.src = "delete.svg"
         deleteButton.textContent = 'Delete';
@@ -582,6 +782,7 @@
         ottText2 = ottText2.replace('www.','')
         ottElement.textContent = ottText2;
         ottElement.className = 'card';
+        ottElement.id = ottText2;
         
         deleteButton2 = document.createElement('img');
         deleteButton2.src = "delete.svg"
@@ -663,8 +864,10 @@
         customText2 = extractWebsiteName(customText);
         customText2 = customText2.replace('//','')
         customText2 = customText2.replace('www','')
+        customText2 = customText2.replace('app.','')
         customElement.textContent = customText2;
         customElement.className = 'card';
+        customElement.id = customText2;
         
         deleteButton3 = document.createElement('img');
         deleteButton3.src = "delete.svg"
@@ -787,7 +990,125 @@
       // Check if there is a match and return the extracted name, or return null
       return match ? match[1] : null;
     }
-    
+//     let tabnumber = 0;
+//     function focusFirstTabindex() {
+//             const firstTabindexElement = document.querySelector('[tabindex="0"]');
+//             if (firstTabindexElement) {
+//                 setTimeout(() => { // Use a setTimeout to ensure it runs after the rendering
+//                     firstTabindexElement.focus();
+//                 }, 0);
+//             }
+//         }
+//     document.onkeydown = function(e) {
+//     switch(e.which) {
+//         case 37: console.log('left');// left
+//         break;
+
+//         case 38: console.log('up');// up
+//         break;
+
+//         case 39: focusFirstTabindex();console.log('right');// right
+//         break;
+
+//         case 40: console.log('down');// down
+//         break;
+
+//         default: return; // exit this handler for other keys
+//     }
+//     e.preventDefault(); // prevent the default action (scroll / move caret)
+// };
+
+    $( document ).ready(function() {
+        console.log( "ready!" );
+        const firstFocusableElement = document.querySelector('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+          if (firstFocusableElement) {
+            firstFocusableElement.focus();
+        }
+        if($('#Kodi')){
+          document.getElementById('Kodi').innerHTML = '';
+          document.getElementById('Kodi').className = 'dpad-focusable';
+          let image1 = document.createElement('img');
+          image1.src = "Kodi-side-by-side.svg";
+          image1.width = 150;
+          document.getElementById('Kodi').appendChild(image1)
+        }
+        if($('#netflix')){
+          document.getElementById('netflix').innerHTML = '';
+          document.getElementById('netflix').className = 'dpad-focusable';
+          let image3 = document.createElement('img');
+          image3.src = "Netflix-Logo.wine.svg";
+          image3.width = 150;
+          document.getElementById('netflix').appendChild(image3)
+        }
+        if($('#primevideo')){
+          document.getElementById('primevideo').innerHTML = '';
+          document.getElementById('primevideo').className = 'dpad-focusable';
+          let image4 = document.createElement('img');
+          image4.src = "Amazon_Prime_Video_logo.svg";
+          image4.width = 150;
+          document.getElementById('primevideo').appendChild(image4)
+        }
+        if($('#disneyplus')){
+          document.getElementById('disneyplus').innerHTML = '';
+          document.getElementById('disneyplus').className = 'dpad-focusable';
+          let image5 = document.createElement('img');
+          image5.src = "Disney+_logo.svg";
+          image5.width = 150;
+          document.getElementById('disneyplus').appendChild(image5)
+        }
+        if($('#sonyliv')){
+          document.getElementById('sonyliv').innerHTML = '';
+          document.getElementById('sonyliv').className = 'dpad-focusable';
+          let image6 = document.createElement('img');
+          image6.src = "sonyliv.png";
+          image6.width = 150;
+          document.getElementById('sonyliv').appendChild(image6)
+        }
+        if($('#zee5')){
+          document.getElementById('zee5').innerHTML = '';
+          document.getElementById('zee5').className = 'blackcard';
+          document.getElementById('zee5').className = 'dpad-focusable';
+          let image7 = document.createElement('img');
+          image7.src = "zee5.svg";
+          image7.width = 150;
+          document.getElementById('zee5').appendChild(image7)
+        }
+    });
+
+    new kursor({
+            type: 2,
+            color: '#FFFFFF',
+            removeDefaultCursor: true
+        })
+
+        document.addEventListener('keydown', function(event) {
+  const focusableElements = Array.from(document.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'));
+  const activeElement = document.activeElement;
+  let index = focusableElements.indexOf(activeElement);
+
+  if (event.key === 'ArrowRight') {
+    index = (index + 1) % focusableElements.length;
+  } else if (event.key === 'ArrowLeft') {
+    index = (index - 1 + focusableElements.length) % focusableElements.length;
+  }
+
+  if (index !== -1) {
+    focusableElements[index].focus();
+  }
+});
+
+window.onload = function() {
+  document.body.addEventListener('keydown', function (event) {
+      if (event.key === 'Enter') {
+        // Prevent the default Enter key behavior (form submission, new line)
+        event.preventDefault();
+
+        // Simulate a click on the focused element
+        document.activeElement.click();
+      }
+    });
+};
+
     </script>
 </body>
 </html>
