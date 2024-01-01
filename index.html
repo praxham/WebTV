@@ -77,9 +77,12 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            display: flex;
+            align-items: baseline;
         }
         .watch img {
-          height: 12px !important;
+          height: 21px ;
+          padding-left: 6px;
         }
         .websites {
             font-family: 'Roboto', sans-serif;
@@ -131,6 +134,19 @@
             height: fit-content;
             mix-blend-mode: multiply;
             pointer-events: none;
+        }
+        .spotifycard {
+            width: 250px;
+            height: 150px;
+            min-width: 250px;
+            background-color: #000AFF;
+            border-radius: 50px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+            padding: 0;
         }
         .cards {
             display: flex;
@@ -277,7 +293,7 @@
             min-height: 100vh;
             z-index: -50;
             object-fit: cover;
-
+            display: none;
         }
         .filter {
             height: 100vh;
@@ -287,10 +303,6 @@
             z-index: -40;
             position: fixed;
             display: none;
-        }
-        .watch img{
-            height: 12px;
-            margin-left: 10px;
         }
         a .watch:target{
             border: solid 2px white;
@@ -495,29 +507,27 @@
         </div>
     </div>
     <div class="featured">
-        <img src="mubi.svg">
         <div class="trijya">TRIJYA</div>
-        <a href="https://mubi.com/en/in/films/radius-2019"><div class="watch">Watch Now<img src="play.svg"></div></a>
+        <a href="https://mubi.com/en/in/films/radius-2019"><div class="watch">WATCH ON<img src="mubi.svg"></div></a>
     </div>
     <div class="websites">
         <div class="livetv" id="livetv">
             <!-- <div>Live TV</div> -->
             <div class="cards">
-                <a class="dpad-focusable" href="https://www.watcho.com/live-tv"><div class="card" class="watcho"><img src="watcho.svg" alt=""></div></a>
-                <a class="dpad-focusable" href="https://www.yupptv.com/"><div class="blackcard"><img src="yupptv.svg" alt=""></div></a>
-                <a class="dpad-focusable" href="http://radio.garden/"><div class="card"><img src="radio.svg" alt=""></div></a>
+                <a id="watcho" class="dpad-focusable" href="https://www.watcho.com/section/free-channels-section"><div class="card" class="watcho"><img src="watcho.svg" alt=""></div></a>
+                <a id="radio" class="dpad-focusable" href="http://radio.garden/"><div class="card"><img src="radio.svg" alt=""></div></a>
                 <div id="tvcards"></div>
-                <a class="dpad-focusable" href="https://www.youtube.com/tv#/"><div class="card"><img src="youtube.svg" alt=""></div></a>
-                <a class="dpad-focusable" href="https://www.jiocinema.com/"><div class="blackcard"><img src="jc_logo_v2.svg" alt=""></div></a>
-                <a class="dpad-focusable" href="https://www.mxplayer.in/"><div class="card"><img src="MX_Player_logo.svg" alt=""></div></a>
+                <a id="yt" class="dpad-focusable" href="https://www.youtube.com/tv#/"><div class="card"><img src="youtube.svg" alt=""></div></a>
+                <a id="jiocinema" class="dpad-focusable" href="https://www.jiocinema.com/"><div class="blackcard"><img src="jc_logo_v2.svg" alt=""></div></a>
+                <a id="mxplayer" class="dpad-focusable" href="https://www.mxplayer.in/"><div class="card"><img src="MX_Player_logo.svg" alt=""></div></a>
                 <div id="ottcards"></div>
-                <a class="dpad-focusable" href="https://drive.google.com/drive/my-drive"><div class="card"><img src="Google_Drive_icon_(2020).svg" alt=""></div></a>
-                <a class="dpad-focusable" href="https://app.plex.tv/desktop/#!/"><div class="card"><img src="Plex_logo_2022.svg" alt=""></div></a>
+                <a id="drive" class="dpad-focusable" href="https://drive.google.com/drive/my-drive"><div class="card"><img src="Google_Drive_icon_(2020).svg" alt=""></div></a>
+                <a id="plex" class="dpad-focusable" href="https://app.plex.tv/desktop/#!/"><div class="card"><img src="Plex_logo_2022.svg" alt=""></div></a>
                 <!-- <a class="dpad-focusable" href="https://web.whatsapp.com/"><div class="card"><img src="whatsapp.png" alt=""></div></a>
                 <a class="dpad-focusable" href="https://web.telegram.org/a/"><div class="card"><img src="telegram.png" alt=""></div></a> -->
                 <div id="customcards"></div>
-                <a class="dpad-focusable" href="https://open.spotify.com/"><div class="card"><img src="spotify.svg" alt=""></div></a>
-                <a class="dpad-focusable" href="https://music.youtube.com/"><div class="blackcard"><img src="on_platform_logo_dark.svg" alt=""></div></a>
+                <a id="spotify" class="dpad-focusable" href="https://open.spotify.com/"><div class="spotifycard"><img src="spotify.svg" alt=""></div></a>
+                <a id="ytmusic" class="dpad-focusable" href="https://music.youtube.com/"><div class="blackcard"><img src="on_platform_logo_dark.svg" alt=""></div></a>
                 <div id="musiccards"></div>
                 <div class="addcard">
                   <input type="text" id="input1" placeholder="Live TV URL">
@@ -1106,7 +1116,220 @@ window.onload = function() {
         document.activeElement.click();
       }
     });
+    document.querySelector('.featured').style.visibility = 'visible';
+    document.querySelector('#myVideo').style.display = 'block';
 };
+const body = document.body;
+
+document.querySelector('#yt').addEventListener('mouseover', function() {
+  body.style.backgroundImage = 'url("Splashscreen_YT.svg")';
+  document.querySelector('#myVideo').style.display = 'none';
+  document.querySelector('.featured').style.visibility = 'hidden';
+});
+document.querySelector('#yt').addEventListener('focus', function() {
+  body.style.backgroundImage = 'url("Splashscreen_YT.svg")';
+  document.querySelector('#myVideo').style.display = 'none';
+  document.querySelector('.featured').style.visibility = 'hidden';
+});
+document.querySelector('#yt').addEventListener('mouseout', function() {
+  body.style.backgroundImage = '';
+  document.querySelector('#myVideo').style.display = 'block';
+  document.querySelector('.featured').style.visibility = 'visible';
+});
+document.querySelector('#yt').addEventListener('blur', function() {
+  body.style.backgroundImage = '';
+  document.querySelector('#myVideo').style.display = 'block';
+  document.querySelector('.featured').style.visibility = 'visible';
+});
+
+document.querySelector('#spotify').addEventListener('mouseover', function() {
+  body.style.backgroundImage = 'url("Splashscreen_spotify.svg")';
+  document.querySelector('#myVideo').style.display = 'none';
+  document.querySelector('.featured').style.visibility = 'hidden';
+});
+document.querySelector('#spotify').addEventListener('focus', function() {
+  body.style.backgroundImage = 'url("Splashscreen_spotify.svg")';
+  document.querySelector('#myVideo').style.display = 'none';
+  document.querySelector('.featured').style.visibility = 'hidden';
+});
+document.querySelector('#spotify').addEventListener('mouseout', function() {
+  body.style.backgroundImage = '';
+  document.querySelector('#myVideo').style.display = 'block';
+  document.querySelector('.featured').style.visibility = 'visible';
+});
+document.querySelector('#spotify').addEventListener('blur', function() {
+  body.style.backgroundImage = '';
+  document.querySelector('#myVideo').style.display = 'block';
+  document.querySelector('.featured').style.visibility = 'visible';
+});
+
+document.querySelector('#ytmusic').addEventListener('mouseover', function() {
+  body.style.backgroundImage = 'url("Splashscreen_ytmusic.svg")';
+  document.querySelector('#myVideo').style.display = 'none';
+  document.querySelector('.featured').style.visibility = 'hidden';
+});
+document.querySelector('#ytmusic').addEventListener('focus', function() {
+  body.style.backgroundImage = 'url("Splashscreen_ytmusic.svg")';
+  document.querySelector('#myVideo').style.display = 'none';
+  document.querySelector('.featured').style.visibility = 'hidden';
+});
+document.querySelector('#ytmusic').addEventListener('mouseout', function() {
+  body.style.backgroundImage = '';
+  document.querySelector('#myVideo').style.display = 'block';
+  document.querySelector('.featured').style.visibility = 'visible';
+});
+document.querySelector('#ytmusic').addEventListener('blur', function() {
+  body.style.backgroundImage = '';
+  document.querySelector('#myVideo').style.display = 'block';
+  document.querySelector('.featured').style.visibility = 'visible';
+});
+
+document.querySelector('#watcho').addEventListener('mouseover', function() {
+  body.style.backgroundImage = 'url("Splashscreen_watcho.svg")';
+  document.querySelector('#myVideo').style.display = 'none';
+  document.querySelector('.featured').style.opacity = '0';
+});
+document.querySelector('#watcho').addEventListener('focus', function() {
+  body.style.backgroundImage = 'url("Splashscreen_watcho.svg")';
+  document.querySelector('#myVideo').style.display = 'none';
+  document.querySelector('.featured').style.opacity = '0';
+});
+document.querySelector('#watcho').addEventListener('mouseout', function() {
+  body.style.backgroundImage = '';
+  document.querySelector('#myVideo').style.display = 'block';
+  document.querySelector('.featured').style.opacity = '100';
+});
+document.querySelector('#watcho').addEventListener('blur', function() {
+  body.style.backgroundImage = '';
+  document.querySelector('#myVideo').style.display = 'block';
+  document.querySelector('.featured').style.opacity = '100';
+});
+
+document.querySelector('#radio').addEventListener('mouseover', function() {
+  body.style.backgroundImage = 'url("Splashscreen_radio.svg")';
+  document.querySelector('#myVideo').style.display = 'none';
+  document.querySelector('.featured').style.visibility = 'hidden';
+});
+document.querySelector('#radio').addEventListener('focus', function() {
+  body.style.backgroundImage = 'url("Splashscreen_radio.svg")';
+  document.querySelector('#myVideo').style.display = 'none';
+  document.querySelector('.featured').style.visibility = 'hidden';
+});
+document.querySelector('#radio').addEventListener('mouseout', function() {
+  body.style.backgroundImage = '';
+  document.querySelector('#myVideo').style.display = 'block';
+  document.querySelector('.featured').style.visibility = 'visible';
+});
+document.querySelector('#radio').addEventListener('blur', function() {
+  body.style.backgroundImage = '';
+  document.querySelector('#myVideo').style.display = 'block';
+  document.querySelector('.featured').style.visibility = 'visible';
+});
+
+document.querySelector('#jiocinema').addEventListener('mouseover', function() {
+  body.style.backgroundImage = 'url("Splashscreen_jiocinema.svg")';
+  document.querySelector('#myVideo').style.display = 'none';
+  document.querySelector('.featured').style.visibility = 'hidden';
+});
+document.querySelector('#jiocinema').addEventListener('focus', function() {
+  body.style.backgroundImage = 'url("Splashscreen_jiocinema.svg")';
+  document.querySelector('#myVideo').style.display = 'none';
+  document.querySelector('.featured').style.visibility = 'hidden';
+});
+document.querySelector('#jiocinema').addEventListener('mouseout', function() {
+  body.style.backgroundImage = '';
+  document.querySelector('#myVideo').style.display = 'block';
+  document.querySelector('.featured').style.visibility = 'visible';
+});
+document.querySelector('#jiocinema').addEventListener('blur', function() {
+  body.style.backgroundImage = '';
+  document.querySelector('#myVideo').style.display = 'block';
+  document.querySelector('.featured').style.visibility = 'visible';
+});
+
+document.querySelector('#mxplayer').addEventListener('mouseover', function() {
+  body.style.backgroundImage = 'url("Splashscreen_mxplayer.svg")';
+  document.querySelector('#myVideo').style.display = 'none';
+  document.querySelector('.featured').style.visibility = 'hidden';
+});
+document.querySelector('#mxplayer').addEventListener('focus', function() {
+  body.style.backgroundImage = 'url("Splashscreen_mxplayer.svg")';
+  document.querySelector('#myVideo').style.display = 'none';
+  document.querySelector('.featured').style.visibility = 'hidden';
+});
+document.querySelector('#mxplayer').addEventListener('mouseout', function() {
+  body.style.backgroundImage = '';
+  document.querySelector('#myVideo').style.display = 'block';
+  document.querySelector('.featured').style.visibility = 'visible';
+});
+document.querySelector('#mxplayer').addEventListener('blur', function() {
+  body.style.backgroundImage = '';
+  document.querySelector('#myVideo').style.display = 'block';
+  document.querySelector('.featured').style.visibility = 'visible';
+});
+
+document.querySelector('#drive').addEventListener('mouseover', function() {
+  body.style.backgroundImage = 'url("Splashscreen_drive.svg")';
+  document.querySelector('#myVideo').style.display = 'none';
+  document.querySelector('.featured').style.visibility = 'hidden';
+});
+document.querySelector('#drive').addEventListener('focus', function() {
+  body.style.backgroundImage = 'url("Splashscreen_drive.svg")';
+  document.querySelector('#myVideo').style.display = 'none';
+  document.querySelector('.featured').style.visibility = 'hidden';
+});
+document.querySelector('#drive').addEventListener('mouseout', function() {
+  body.style.backgroundImage = '';
+  document.querySelector('#myVideo').style.display = 'block';
+  document.querySelector('.featured').style.visibility = 'visible';
+});
+document.querySelector('#drive').addEventListener('blur', function() {
+  body.style.backgroundImage = '';
+  document.querySelector('#myVideo').style.display = 'block';
+  document.querySelector('.featured').style.visibility = 'visible';
+});
+
+document.querySelector('#plex').addEventListener('mouseover', function() {
+  body.style.backgroundImage = 'url("Splashscreen_plex.svg")';
+  document.querySelector('#myVideo').style.display = 'none';
+  document.querySelector('.featured').style.visibility = 'hidden';
+});
+document.querySelector('#plex').addEventListener('focus', function() {
+  body.style.backgroundImage = 'url("Splashscreen_plex.svg")';
+  document.querySelector('#myVideo').style.display = 'none';
+  document.querySelector('.featured').style.visibility = 'hidden';
+});
+document.querySelector('#plex').addEventListener('mouseout', function() {
+  body.style.backgroundImage = '';
+  document.querySelector('#myVideo').style.display = 'block';
+  document.querySelector('.featured').style.visibility = 'visible';
+});
+document.querySelector('#plex').addEventListener('blur', function() {
+  body.style.backgroundImage = '';
+  document.querySelector('#myVideo').style.display = 'block';
+  document.querySelector('.featured').style.visibility = 'visible';
+});
+
+document.querySelector('.watch').addEventListener('mouseover', function() {
+  document.querySelector('#myVideo').style.display = 'block';
+  document.querySelector('.featured').style.visibility = 'visible';
+});
+document.querySelector('.watch').addEventListener('focus', function() {
+  document.querySelector('#myVideo').style.display = 'block';
+  document.querySelector('.featured').style.visibility = 'visible';
+});
+document.querySelector('.watch').addEventListener('mouseout', function() {
+  document.querySelector('#myVideo').style.display = 'none';
+  document.querySelector('.featured').style.visibility = 'hidden';
+});
+document.querySelector('.watch').addEventListener('blur', function() {
+  document.querySelector('#myVideo').style.display = 'none';
+  document.querySelector('.featured').style.visibility = 'hidden';
+});
+
+$(document).ready(function() {
+  $('div:empty').hide(); // Hide all empty divs on the page
+});
 
     </script>
 </body>
