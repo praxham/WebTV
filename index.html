@@ -9,7 +9,6 @@
     <link rel="manifest" href="manifest.json" />
     <script src="https://cdn.jsdelivr.net/npm/kursor"></script>
     <link rel="stylesheet" href="https://unpkg.com/kursor/dist/kursor.css">
-    <script src="https://unpkg.com/kursor"></script>
     <script src="https://unpkg.com/@gauntface/dpad-nav@3.0.1/build/helper/helper/dpad.js" async defer></script>
     <script src="https://unpkg.com/@gauntface/dpad-nav@3.0.1/build/helper/helper/dpad-debugger.js" async defer></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -28,6 +27,7 @@
         body {
             /* background: linear-gradient(180deg, rgba(0, 0, 0, 0.00) 0%, #000 100%), url('trijya.jpg'), lightgray 50% / cover no-repeat;
             background-position: center; */
+            background-image: url(eugene-golovesov-V_lR_xqVeXE-unsplash.jpg);
             background-repeat: no-repeat;
             background-size: cover;
             background-attachment: fixed;
@@ -79,6 +79,7 @@
             align-items: center;
             display: flex;
             align-items: baseline;
+            opacity: 0;
         }
         .watch img {
           height: 21px ;
@@ -344,7 +345,11 @@
           width: 36px;
           height: 24px;
         }
-
+        .switch:focus{
+            outline: 2px solid white;
+            border-radius: 50px;
+            outline-offset: 40px;
+        }
         /* Hide default HTML checkbox */
         .switch input {
           opacity: 0;
@@ -409,7 +414,7 @@
         }
         .settings img {
           fill: white;
-          height: 24px;
+          height: 19px;
         }
         #tvcards img,#ottcards img,#customcards img,#musiccards img {
           height: 36px;
@@ -483,19 +488,30 @@
           pointer-events: none;
           display: block !important
         }
-
+        #tvcards:empty {
+          display: none !important;
+        }
+        #ottcards:empty {
+          display: none !important;
+        }
+        #customcards:empty {
+          display: none !important;
+        }
+        #musiccards:empty {
+          display: none !important;
+        }
     </style>
 </head>
 <body>
     <!-- <a href="webrun:C:\123movies.lnk">123movies</a> -->
     <div class="splash"><img src="webtvlogo.svg" alt=""></div>
     <div class="filter"></div>
-    <video autoplay muted loop id="myVideo">
-        <source src="trijya.mp4" type="video/mp4">
-    </video>
+    <!-- <video autoplay muted loop id="myVideo">
+        <source src="trijyagif.mp4" type="video/mp4">
+    </video> -->
     <div class="container">
       <div class="nav">
-        <div class="settings"><img src="settings.svg" alt="">
+        <div class="settings"><img src="edit.svg" alt="">
           <label class="switch">
             <input type="checkbox">
             <span class="slider round"></span>
@@ -503,8 +519,8 @@
         </div>
     </div>
     <div class="featured">
-        <div class="trijya">TRIJYA TEST</div>
-        <a href="https://mubi.com/en/in/films/radius-2019"><div class="watch">WATCH ON<img src="mubi.svg"></div></a>
+        <!-- <div class="trijya">TRIJYA</div> -->
+        <!-- <a href="https://mubi.com/en/in/films/radius-2019"><div class="watch">WATCH ON<img src="mubi.svg"></div></a> -->
     </div>
     <div class="websites">
         <div class="livetv" id="livetv">
@@ -623,6 +639,11 @@
     </div>
     </div> -->
     <script>
+      new kursor({
+            type: 2,
+            color: '#FFFFFF',
+            removeDefaultCursor: true,
+        })
         document.addEventListener('DOMContentLoaded', function() {
       // Load tasks from local storage
       loadTV();
@@ -1080,12 +1101,6 @@
         }
     });
 
-    new kursor({
-            type: 2,
-            color: '#FFFFFF',
-            removeDefaultCursor: true
-        })
-
         document.addEventListener('keydown', function(event) {
   const focusableElements = Array.from(document.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'));
   const activeElement = document.activeElement;
@@ -1104,7 +1119,7 @@
 
 window.onload = function() {
   document.body.addEventListener('keydown', function (event) {
-      if (event.key === 'Enter') {
+      if (event.keyCode === 32 || event.key === 'Enter') {
         // Prevent the default Enter key behavior (form submission, new line)
         event.preventDefault();
 
@@ -1323,10 +1338,6 @@ document.querySelector('.watch').addEventListener('blur', function() {
   document.querySelector('.featured').style.visibility = 'hidden';
 });
 
-$(document).ready(function() {
-  $('div:empty').hide(); // Hide all empty divs on the page
-});
-//test1
     </script>
 </body>
 </html>
