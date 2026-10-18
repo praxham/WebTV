@@ -1,0 +1,26 @@
+{
+  "name": "bun-react-template",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "bun --hot src/index.tsx",
+    "build": "bun run build.ts",
+    "start": "bunx serve dist -s"
+  },
+  "dependencies": {
+    "@noriginmedia/norigin-spatial-navigation": "^3.3.0",
+    "bun-plugin-tailwind": "latest",
+    "react": "^19",
+    "react-dom": "^19",
+    "react-toastify": "^11.1.0",
+    "tailwindcss": "^4",
+    "zustand": "^5.0.15"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "concurrently": "^10.0.6"
+  }
+}

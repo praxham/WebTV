@@ -1,0 +1,50 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans:
+    "Google Sans", "Poppins", ui-sans-serif, system-ui, sans-serif,
+    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+}
+
+:root {
+  /* size */
+  --website-horizontal-size: 1240px;
+
+  /* colors */
+  --clr-site-backrgound: #faf5ef;
+  --clr-primary: #1d2c43;
+  --clr-danger: #b23636;
+  --clr-background-one: #e3ded9;
+  --clr-grey-one: #333333;
+  --clr-grey-two: #4d4d4d;
+  --clr-grey-three: #808080;
+
+  --clr-border-grey-one: #e6e6e6;
+  --clr-border-grey-two: #e5e5e5;
+
+  --clr-glass-color: "green";
+
+  /* radius */
+  --corner-radius: 10px;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  scroll-behavior: smooth;
+}
+
+@keyframes subtle-bounce {
+  0%,
+  100% {
+    translate: 0 0;
+  }
+  50% {
+    translate: 0 -6px; /* Adjust this pixel value for more/less bounce */
+  }
+}
+
+.subtle-bounce {
+  animation: subtle-bounce 1s ease-in-out infinite;
+}
