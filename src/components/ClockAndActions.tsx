@@ -1,5 +1,5 @@
-import { config } from "@/config";
 import { execute } from "@/functions";
+import config from "../../public/config.json";
 import {
   setFocus,
   useFocusable,
@@ -17,9 +17,18 @@ const ActionButton = ({
   focusKey: string;
   children: React.ReactNode;
 }) => {
+  const run = () => {
+    if (command === "CLOSE") {
+      fetch("/api/kill-standalone").catch((err) =>
+        console.error("Failed to kill standalone:", err),
+      );
+    } else {
+      execute(command);
+    }
+  };
   const { ref, focused } = useFocusable({
     focusKey,
-    onEnterPress: () => execute(command),
+    onEnterPress: run,
     onArrowPress: (direction) => {
       const i = ACTION_KEYS.indexOf(focusKey);
 
@@ -46,7 +55,7 @@ const ActionButton = ({
       className={`transition-all duration-300 ease-in-out ${
         focused ? "outline-white/20 outline scale-125" : ""
       }`}
-      onClick={() => execute(command)}
+      onClick={run}
     >
       {children}
     </button>
@@ -54,8 +63,6 @@ const ActionButton = ({
 };
 
 const ClockAndActions = () => {
-  const date = new Date();
-
   const [time, setTime] = useState(() => getFormatedTime(new Date()));
 
   useEffect(() => {
@@ -87,7 +94,7 @@ const ClockAndActions = () => {
         </svg>
       </ActionButton>
 
-      <ActionButton focusKey="CLOSE" command={config.shutDownCommand}>
+      <ActionButton focusKey="CLOSE" command={"CLOSE"}>
         <svg
           width="18px"
           height="18px"

@@ -5,8 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "bun --hot src/index.tsx",
-    "build": "bun run build.ts",
-    "start": "bunx serve dist -s"
+    "build": "bun run build.ts && cp -r public/. dist/",
+    "start": "NODE_ENV=production bun src/index.tsx"
   },
   "dependencies": {
     "@noriginmedia/norigin-spatial-navigation": "^3.3.0",

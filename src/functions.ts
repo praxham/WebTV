@@ -6,9 +6,8 @@ export const execute = async (
 ) => {
   try {
     setIsLoading && setIsLoading(true);
-    const url = new URL("/api/execute-cli-command", window.location.href);
 
-    const response = await fetch(url, {
+    const response = await fetch("/api/execute-cli-command", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

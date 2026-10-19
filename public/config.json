@@ -1,0 +1,42 @@
+{
+  "port": "9000",
+  "backgroundImage": "/assets/background.jpg",
+  "apps": [
+    {
+      "name": "youtube",
+      "cliCommand": "flatpak run rocks.shy.VacuumTube --fullscreen",
+      "image": "/assets/apps/youtube.png",
+      "backgroundImage": "/assets/apps/backgrounds/youtube_background.png"
+    },
+    {
+      "name": "stremio",
+      "cliCommand": "flatpak run com.stremio.Stremio",
+      "image": "/assets/apps/stremio.png",
+      "backgroundImage": "/assets/apps/backgrounds/stremio_background.png"
+    },
+    {
+      "name": "tv",
+      "cliCommand": "firefox --no-remote -P kiosk --kiosk https://www.vzy.one/en/free-live-tv-channels/list/366802?playlist_type=KTM&ratio=1x1&rail_card_size=NORMAL&page_size=30&meta_demographic=None&partner_cap_value=0&editorial_boost=%5B%7B%22position%22%3A1%2C%22id%22%3A%227712518%22%7D%5D",
+      "image": "/assets/apps/tv.png"
+    },
+    {
+      "name": "music",
+      "cliCommand": "gnome-music",
+      "image": "/assets/apps/music.png"
+    },
+    {
+      "name": "steam",
+      "cliCommand": "steam -gamepadui",
+      "image": "/assets/apps/steam.png",
+      "backgroundImage": "/assets/apps/backgrounds/steam_background.png"
+    },
+    {
+      "name": "retroarch",
+      "cliCommand": "flatpak run org.libretro.RetroArch",
+      "image": "/assets/apps/retroarch.png",
+      "backgroundImage": "/assets/apps/backgrounds/retroarch_background.png"
+    }
+  ],
+  "lockCommand": "loginctl lock-session",
+  "shutDownCommand": "lsof -ti:{{PORT}} | xargs kill -9"
+}

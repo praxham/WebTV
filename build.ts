@@ -7,8 +7,9 @@ const result = await Bun.build({
   minify: true,
   sourcemap: "linked",
   target: "browser",
-  compile: true,
   publicPath: "/",
+  env: "BUN_PUBLIC_*",
+  define: { "process.env.NODE_ENV": JSON.stringify("production") },
 });
 
 if (!result.success) {

@@ -1,13 +1,11 @@
-import { config } from "@/config";
 import { execute } from "@/functions";
 import { useAppsStore } from "@/store";
 import type { AppData } from "@/types";
 import {
-  doesFocusableExist,
   setFocus,
   useFocusable,
 } from "@noriginmedia/norigin-spatial-navigation";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 
 const AppCard = ({
   app,

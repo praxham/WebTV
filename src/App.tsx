@@ -1,11 +1,11 @@
-import { config } from "./config";
+import config from "../public/config.json";
 import "./index.css";
 import Dock from "./components/Dock";
 import ClockAndActions from "./components/ClockAndActions";
 import { useAppsStore } from "./store";
 import { init, setFocus } from "@noriginmedia/norigin-spatial-navigation";
-import { useEffect } from "react";
-import { Bounce, ToastContainer } from "react-toastify";
+import { useEffect, useRef } from "react";
+import { ToastContainer } from "react-toastify";
 
 init({
   distanceCalculationMethod: "center",
@@ -18,7 +18,18 @@ export function App() {
     (app) => app.name === focusedApp,
   )?.backgroundImage;
 
+  const hasFetched = useRef(false);
+
   useEffect(() => {
+    if (!hasFetched.current) {
+      hasFetched.current = true;
+
+      const url = new URL("/api/run-standalone", window.location.href);
+      fetch(url).catch((err) =>
+        console.error("Failed to run standalone:", err),
+      );
+    }
+
     let isFirstInteraction = true;
 
     const handleFirstInput = (e: KeyboardEvent) => {
@@ -40,7 +51,6 @@ export function App() {
         }
       }
     };
-
     window.addEventListener("keydown", handleFirstInput);
     return () => window.removeEventListener("keydown", handleFirstInput);
   }, []);
