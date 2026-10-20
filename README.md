@@ -27,7 +27,7 @@ webTV is a big-screen, couch-friendly launcher inspired by modern streaming-box 
 
 ```bash
 git clone https://github.com/praxham/WebTV.git
-cd webTV
+cd WebTV
 npm install
 npm run start
 ```
