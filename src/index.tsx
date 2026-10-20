@@ -4,6 +4,9 @@ import index from "./index.html";
 import config from "../public/config.json";
 
 const PUBLIC_DIR = join(import.meta.dir, "..", "public");
+const CLIENT_DIR = join(import.meta.dir, "client");
+const isProd = process.env.NODE_ENV === "production";
+const devIndex = isProd ? null : (await import("./index.html")).default;
 
 const server = serve({
   port: config.port || 3000,
@@ -63,7 +66,17 @@ const server = serve({
     },
 
     // Serve index.html for all unmatched routes.
-    "/*": index,
+    "/*": isProd
+      ? async (req: Request) => {
+          const { pathname } = new URL(req.url);
+          const file = Bun.file(
+            join(CLIENT_DIR, pathname === "/" ? "index.html" : pathname),
+          );
+          return (await file.exists())
+            ? new Response(file)
+            : new Response(Bun.file(join(CLIENT_DIR, "index.html")));
+        }
+      : devIndex!,
   },
 
   development: process.env.NODE_ENV !== "production" && {
@@ -104,9 +117,7 @@ for (const bin of ["chromium", "chromium-browser", "google-chrome"]) {
 }
 
 if (!browserProcess) {
-  console.error(
-    "Could not auto-launch window. Please open browser manually.",
-  );
+  console.error("Could not auto-launch window. Please open browser manually.");
 }
 
 const shutdownApp = async () => {

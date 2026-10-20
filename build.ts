@@ -1,44 +1,36 @@
 import plugin from "bun-plugin-tailwind";
-import { cpSync, existsSync } from "fs";
+import { cpSync, existsSync, rmSync } from "fs";
 
-// 1. Build client bundle
-console.log("Building client bundle...");
-const clientResult = await Bun.build({
+rmSync("dist", { recursive: true, force: true });
+
+// 1. Client bundle -> dist/client
+const client = await Bun.build({
   entrypoints: ["./src/index.html"],
-  outdir: "./dist",
+  outdir: "./dist/client",
   plugins: [plugin],
   minify: true,
-  sourcemap: "linked",
   target: "browser",
   publicPath: "/",
   env: "BUN_PUBLIC_*",
   define: { "process.env.NODE_ENV": JSON.stringify("production") },
 });
-
-if (!clientResult.success) {
-  console.error("Client build failed:", clientResult.logs);
+if (!client.success) {
+  console.error(client.logs);
   process.exit(1);
 }
 
-// 2. Copy public directory assets into dist
-if (existsSync("public")) {
-  console.log("Copying public assets to dist...");
-  cpSync("public", "dist", { recursive: true });
-}
-
-// 3. Build server bundle for dist
-console.log("Building server bundle...");
-const serverResult = await Bun.build({
-  entrypoints: ["./src/server.ts"],
+// 2. Server bundle -> dist/index.js
+const server = await Bun.build({
+  entrypoints: ["./src/index.tsx"],
   outdir: "./dist",
-  target: "node",
+  target: "bun",
   minify: true,
   define: { "process.env.NODE_ENV": JSON.stringify("production") },
 });
-
-if (!serverResult.success) {
-  console.error("Server build failed:", serverResult.logs);
+if (!server.success) {
+  console.error(server.logs);
   process.exit(1);
 }
 
-console.log("✅ Build complete! Server and client ready in ./dist");
+if (existsSync("public")) cpSync("public", "dist", { recursive: true });
+console.log("✅ Build complete");

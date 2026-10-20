@@ -6,8 +6,7 @@
   "scripts": {
     "dev": "bun --hot src/index.tsx",
     "build": "bun run build.ts",
-    "start": "npm run build && node dist/server.js",
-    "dist/server.js": "node dist/server.js"
+    "start": "npm run build && bun dist/index.js"
   },
   "dependencies": {
     "@noriginmedia/norigin-spatial-navigation": "^3.3.0",
