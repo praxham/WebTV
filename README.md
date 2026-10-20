@@ -1,4 +1,4 @@
-<div align="center"> <img src="./public/favicon.png" alt="webTV logo" width="120" />
+<div align="center"> <img src="https://raw.githubusercontent.com/praxham/WebTV/main/public/favicon.png" alt="webTV logo" width="120" />
 
 # webTV
 
@@ -6,7 +6,7 @@
 
 Controller- and remote-friendly. Fully themeable with Tailwind. Clone it, run it, make it yours.
 
-<br /> <table> <tr> <td align="center" width="50%"> <img src="./public/screenshot.png" alt="webTV home screen" /> <br /> <sub>Home screen</sub> </td> <td align="center" width="50%"> <img src="./public/demo.gif" alt="webTV in action" /> <br /> <sub>Navigating and launching apps</sub> </td> </tr> </table> </div>
+<br /> <table> <tr> <td align="center" width="50%"> <img src="https://raw.githubusercontent.com/praxham/WebTV/main/public/screenshot.png" alt="webTV home screen" /> <br /> <sub>Home screen</sub> </td> <td align="center" width="50%"> <img src="https://raw.githubusercontent.com/praxham/WebTV/main/public/demo.gif" alt="webTV in action" /> <br /> <sub>Navigating and launching apps</sub> </td> </tr> </table> </div>
 
 ---
 
@@ -26,14 +26,18 @@ webTV is a big-screen, couch-friendly launcher inspired by modern streaming-box 
 ## Getting started
 
 ```bash
-git clone https://github.com/<your-username>/webTV.git
+git clone https://github.com/praxham/WebTV.git
 cd webTV
 npm install
 npm run start
-
 ```
 
-`npm run start` builds the project and starts the server. Open the address printed in the terminal in a browser and put it in fullscreen (or use a kiosk-mode browser on your living room PC).
+`npm run start` builds the project and starts the server using the Bun
+binary installed as a dev dependency, so no global Bun is needed.
+Open the printed address in a browser, or let webTV launch Chromium in
+kiosk mode on your living room PC.
+
+> Requires Linux or macOS. App launching uses `sh` and a Chromium-based browser.
 
 ### Development
 
@@ -59,10 +63,12 @@ An entry generally pairs a label and icon with a command to run, along the lines
 {
   "name": "Media Player",
   "image": "/assets/apps/media.png",
-  "backgroundImage"?: "/assets/apps/backgrounds/app_background.png",
+  "backgroundImage": "/assets/apps/backgrounds/app_background.png",
   "cliCommand": "vlc"
 }
 ```
+
+`backgroundImage` is optional.
 
 > **To use any changes to this configuration, you must restart the application.**
 
@@ -72,21 +78,16 @@ Because the interface is plain React plus Tailwind, you are not limited to a fix
 
 ## Scripts
 
-Command
+| Command         | What it does                                |
+| --------------- | ------------------------------------------- |
+| `npm run dev`   | Starts the dev server with hot reload (Bun) |
+| `npm run build` | Builds the client and server into `dist/`   |
+| `npm run start` | Builds, then runs `dist/index.js`           |
 
-What it does
+## Security
 
-`npm run dev`
-
-Starts the dev server with hot reload (Bun)
-
-`npm run build`
-
-Builds the project into `dist/`
-
-`npm run start`
-
-Builds, then runs `dist/server.js`
+> webTV can run any command you configure. Only run it on a
+> trusted network and don't expose the port to the internet.
 
 ## Tech stack
 
