@@ -95,7 +95,12 @@ const targetUrl = `http://localhost:${server.port}`;
 const PROFILE_DIR = "/tmp/kiosk-profile";
 let browserProcess: any;
 
-for (const bin of ["chromium", "chromium-browser", "google-chrome"]) {
+for (const bin of [
+  "chromium",
+  "chromium-browser",
+  "google-chrome",
+  "firefox",
+]) {
   try {
     const proc = Bun.spawn(
       [
