@@ -58,6 +58,10 @@ const server = serve({
       }
     },
 
+    "/api/run-standalone": () => {
+      return Response.json({ success: true });
+    },
+
     // Serve index.html for all unmatched routes.
     "/*": index,
   },
@@ -91,14 +95,18 @@ for (const bin of ["chromium", "chromium-browser", "google-chrome"]) {
       ],
       { stdout: "inherit", stderr: "inherit" },
     );
+    browserProcess = proc;
     proc.exited.then((code) => console.log(`${bin} exited (${code})`));
-    console.log(proc);
+    break;
   } catch (e) {
-    console.error(
-      "Could not auto-launch window. Please open browser manually.",
-      e,
-    );
+    // Try next browser binary
   }
+}
+
+if (!browserProcess) {
+  console.error(
+    "Could not auto-launch window. Please open browser manually.",
+  );
 }
 
 const shutdownApp = async () => {
