@@ -33,6 +33,16 @@ const server = serve({
       POST: async (req) => {
         try {
           const { cliCommand } = await req.json();
+          const isValidCommand =
+            config.apps?.some((app) => app.cliCommand === cliCommand) ||
+            config.lockCommand === cliCommand;
+
+          if (!isValidCommand) {
+            return Response.json({
+              success: false,
+              message: "Command not found in config.json",
+            });
+          }
           await $`sh -c ${cliCommand}`;
           return Response.json({
             success: true,
