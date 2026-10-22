@@ -38,5 +38,5 @@
     }
   ],
   "lockCommand": "loginctl lock-session",
-  "shutDownCommand": "lsof -ti:{{PORT}} | xargs kill -9"
+  "shutDownCommand": ""
 }
